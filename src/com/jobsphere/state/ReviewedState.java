@@ -1,4 +1,3 @@
-// ReviewedState.java
 package com.jobsphere.state;
 
 public class ReviewedState implements ApplicationState {

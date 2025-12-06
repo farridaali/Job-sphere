@@ -1,4 +1,3 @@
-// CompanyDashboard.java
 package com.jobsphere.gui;
 
 import com.jobsphere.facade.JobManagementFacade;
@@ -39,11 +38,20 @@ public class CompanyDashboard extends JFrame {
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 18));
         topPanel.add(welcomeLabel, BorderLayout.WEST);
 
+        JPanel topRightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton postJobButton = new JButton("Post New Job");
         postJobButton.setBackground(new Color(60, 179, 113));
         postJobButton.setForeground(Color.WHITE);
         postJobButton.addActionListener(e -> postNewJob());
-        topPanel.add(postJobButton, BorderLayout.EAST);
+        topRightPanel.add(postJobButton);
+
+        JButton logoutButton = new JButton("Logout");
+        logoutButton.setBackground(new Color(220, 20, 60));
+        logoutButton.setForeground(Color.WHITE);
+        logoutButton.addActionListener(e -> logout());
+        topRightPanel.add(logoutButton);
+
+        topPanel.add(topRightPanel, BorderLayout.EAST);
 
         mainPanel.add(topPanel, BorderLayout.NORTH);
 
@@ -275,5 +283,17 @@ public class CompanyDashboard extends JFrame {
         Job job = jobFacade.getJobDetails(jobId);
 
         new ApplicationsDialog(this, job, jobFacade).setVisible(true);
+    }
+
+    private void logout() {
+        int confirm = JOptionPane.showConfirmDialog(this,
+                "Are you sure you want to logout?",
+                "Confirm Logout",
+                JOptionPane.YES_NO_OPTION);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            this.dispose();
+            new LoginFrame().setVisible(true);
+        }
     }
 }

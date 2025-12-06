@@ -1,11 +1,14 @@
 package com.jobsphere.model;
 
+import java.io.Serializable;
+
 /**
  * DESIGN PATTERN: Prototype Pattern
  * Why: Allows cloning of user objects for creating similar profiles
  * Affected Classes: User, Applicant, Company
  */
-public abstract class User implements Cloneable {
+public abstract class User implements Cloneable, Serializable {
+    private static final long serialVersionUID = 1L;
     protected String id;
     protected String email;
     protected String password;

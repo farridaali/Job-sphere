@@ -1,4 +1,3 @@
-// ApplicationState.java
 package com.jobsphere.state;
 
 /**

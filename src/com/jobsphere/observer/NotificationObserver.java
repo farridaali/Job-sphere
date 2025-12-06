@@ -1,4 +1,3 @@
-// NotificationObserver.java
 package com.jobsphere.observer;
 
 import javax.swing.JOptionPane;

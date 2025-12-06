@@ -1,4 +1,3 @@
-// Subject.java
 package com.jobsphere.observer;
 
 import java.util.ArrayList;

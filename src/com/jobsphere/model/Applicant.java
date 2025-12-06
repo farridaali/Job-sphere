@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Applicant extends User {
+    private static final long serialVersionUID = 1L;
     private String name;
     private String phone;
     private String resumePath;

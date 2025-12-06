@@ -1,4 +1,3 @@
-// ApplicationContext.java
 package com.jobsphere.state;
 
 public class ApplicationContext {

@@ -1,4 +1,3 @@
-// AcceptedState.java
 package com.jobsphere.state;
 
 public class AcceptedState implements ApplicationState {

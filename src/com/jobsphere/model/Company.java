@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Company extends User {
+    private static final long serialVersionUID = 1L;
     private String companyName;
     private String industry;
     private String description;

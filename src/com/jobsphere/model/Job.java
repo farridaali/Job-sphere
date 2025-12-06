@@ -1,5 +1,6 @@
 package com.jobsphere.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,8 @@ import java.util.List;
  * Why: Job objects have many optional fields, Builder makes construction cleaner
  * Affected Classes: Job, Job.Builder
  */
-public class Job {
+public class Job implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String id;
     private String companyId;
     private String title;

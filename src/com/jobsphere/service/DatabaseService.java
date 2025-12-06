@@ -1,6 +1,7 @@
 package com.jobsphere.service;
 
 import com.jobsphere.model.*;
+import com.jobsphere.persistence.DataPersistenceManager;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -14,12 +15,17 @@ public class DatabaseService {
     private Map<String, User> users;
     private Map<String, Job> jobs;
     private Map<String, Application> applications;
+    private DataPersistenceManager persistenceManager;
 
     private DatabaseService() {
-        users = new HashMap<>();
-        jobs = new HashMap<>();
-        applications = new HashMap<>();
-        initializeSampleData();
+        persistenceManager = DataPersistenceManager.getInstance();
+        loadData();
+
+        // Initialize sample data only if database is empty
+        if (users.isEmpty()) {
+            initializeSampleData();
+            saveData();
+        }
     }
 
     public static synchronized DatabaseService getInstance() {
@@ -27,6 +33,19 @@ public class DatabaseService {
             instance = new DatabaseService();
         }
         return instance;
+    }
+
+    private void loadData() {
+        users = persistenceManager.loadUsers();
+        jobs = persistenceManager.loadJobs();
+        applications = persistenceManager.loadApplications();
+        System.out.println("Data loaded from disk");
+    }
+
+    private void saveData() {
+        persistenceManager.saveUsers(users);
+        persistenceManager.saveJobs(jobs);
+        persistenceManager.saveApplications(applications);
     }
 
     private void initializeSampleData() {
@@ -71,6 +90,7 @@ public class DatabaseService {
     // User management
     public User registerUser(User user) {
         users.put(user.getId(), user);
+        saveData();
         return user;
     }
 
@@ -95,6 +115,7 @@ public class DatabaseService {
     // Job management
     public Job addJob(Job job) {
         jobs.put(job.getId(), job);
+        saveData();
         return job;
     }
 
@@ -125,10 +146,12 @@ public class DatabaseService {
 
     public void updateJob(Job job) {
         jobs.put(job.getId(), job);
+        saveData();
     }
 
     public void deleteJob(String jobId) {
         jobs.remove(jobId);
+        saveData();
     }
 
     // Application management
@@ -147,6 +170,7 @@ public class DatabaseService {
             ((Applicant) user).applyForJob(application.getJobId());
         }
 
+        saveData();
         return application;
     }
 
@@ -164,11 +188,21 @@ public class DatabaseService {
 
     public void updateApplication(Application application) {
         applications.put(application.getId(), application);
+        saveData();
     }
 
     public boolean hasApplied(String applicantId, String jobId) {
         return applications.values().stream()
                 .anyMatch(app -> app.getApplicantId().equals(applicantId) &&
                         app.getJobId().equals(jobId));
+    }
+
+    public void updateUser(User user) {
+        users.put(user.getId(), user);
+        saveData();
+    }
+
+    public Application getApplicationById(String applicationId) {
+        return applications.get(applicationId);
     }
 }

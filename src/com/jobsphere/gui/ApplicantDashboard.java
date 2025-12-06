@@ -1,4 +1,3 @@
-// ApplicantDashboard.java
 package com.jobsphere.gui;
 
 import com.jobsphere.facade.JobManagementFacade;
@@ -41,9 +40,18 @@ public class ApplicantDashboard extends JFrame {
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 18));
         topPanel.add(welcomeLabel, BorderLayout.WEST);
 
+        JPanel topRightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton profileButton = new JButton("My Profile");
         profileButton.addActionListener(e -> showProfile());
-        topPanel.add(profileButton, BorderLayout.EAST);
+        topRightPanel.add(profileButton);
+
+        JButton logoutButton = new JButton("Logout");
+        logoutButton.setBackground(new Color(220, 20, 60));
+        logoutButton.setForeground(Color.WHITE);
+        logoutButton.addActionListener(e -> logout());
+        topRightPanel.add(logoutButton);
+
+        topPanel.add(topRightPanel, BorderLayout.EAST);
 
         mainPanel.add(topPanel, BorderLayout.NORTH);
 
@@ -251,7 +259,7 @@ public class ApplicantDashboard extends JFrame {
         String jobId = (String) tableModel.getValueAt(selectedRow, 0);
         Job job = jobFacade.getJobDetails(jobId);
 
-        new JobDetailsDialog(this, job, applicant).setVisible(true);
+        new JobDetailsDialog(this, job, applicant, jobFacade).setVisible(true);
     }
 
     private void applyForJob() {
@@ -262,12 +270,10 @@ public class ApplicantDashboard extends JFrame {
         }
 
         String jobId = (String) tableModel.getValueAt(selectedRow, 0);
+        Job job = jobFacade.getJobDetails(jobId);
 
-        if (jobFacade.applyForJob(applicant.getId(), jobId)) {
-            JOptionPane.showMessageDialog(this, "Application submitted successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(this, "You have already applied for this job", "Info", JOptionPane.INFORMATION_MESSAGE);
-        }
+        // Open apply dialog with resume upload
+        new ApplyJobDialog(this, job, applicant, jobFacade).setVisible(true);
     }
 
     private void saveJob() {
@@ -284,5 +290,17 @@ public class ApplicantDashboard extends JFrame {
 
     private void showProfile() {
         new ApplicantProfileDialog(this, applicant).setVisible(true);
+    }
+
+    private void logout() {
+        int confirm = JOptionPane.showConfirmDialog(this,
+                "Are you sure you want to logout?",
+                "Confirm Logout",
+                JOptionPane.YES_NO_OPTION);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            this.dispose();
+            new LoginFrame().setVisible(true);
+        }
     }
 }

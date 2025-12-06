@@ -1,4 +1,3 @@
-// ApplicationSubject.java
 package com.jobsphere.observer;
 
 public class ApplicationSubject extends Subject {

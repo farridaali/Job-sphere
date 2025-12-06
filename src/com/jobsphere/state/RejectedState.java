@@ -1,4 +1,3 @@
-// RejectedState.java
 package com.jobsphere.state;
 
 public class RejectedState implements ApplicationState {

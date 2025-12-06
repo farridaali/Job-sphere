@@ -1,4 +1,3 @@
-// PendingState.java
 package com.jobsphere.state;
 
 public class PendingState implements ApplicationState {

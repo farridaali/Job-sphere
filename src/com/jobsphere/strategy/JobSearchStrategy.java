@@ -1,4 +1,3 @@
-// JobSearchStrategy.java
 package com.jobsphere.strategy;
 
 import com.jobsphere.model.Job;

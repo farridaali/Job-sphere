@@ -1,4 +1,3 @@
-// PostJobDialog.java
 package com.jobsphere.gui;
 
 import com.jobsphere.facade.JobManagementFacade;

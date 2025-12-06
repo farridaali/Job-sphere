@@ -1,9 +1,8 @@
-// JobManagementFacade.java
 package com.jobsphere.facade;
 
 import com.jobsphere.model.*;
 import com.jobsphere.service.DatabaseService;
-
+import com.jobsphere.strategy.JobSearchStrategy;
 import java.util.List;
 
 /**
@@ -41,10 +40,21 @@ public class JobManagementFacade {
         return true;
     }
 
+    public boolean applyForJobWithResume(String applicantId, String jobId, String resumePath) {
+        if (database.hasApplied(applicantId, jobId)) {
+            return false; // Already applied
+        }
+
+        Application application = new Application(jobId, applicantId, resumePath);
+        database.addApplication(application);
+        return true;
+    }
+
     public void saveJob(String applicantId, String jobId) {
         User user = database.getUserById(applicantId);
         if (user instanceof Applicant) {
             ((Applicant) user).saveJob(jobId);
+            database.updateUser(user);
         }
     }
 
@@ -100,10 +110,7 @@ public class JobManagementFacade {
     }
 
     public void updateApplicationStatus(String applicationId, String status) {
-        Application app = database.getApplicationsByJobId("").stream()
-                .filter(a -> a.getId().equals(applicationId))
-                .findFirst()
-                .orElse(null);
+        Application app = database.getApplicationById(applicationId);
 
         if (app != null) {
             app.setStatus(status);

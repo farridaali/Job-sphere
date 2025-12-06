@@ -1,4 +1,3 @@
-// Main.java
 package com.jobsphere;
 
 import com.jobsphere.gui.LoginFrame;
