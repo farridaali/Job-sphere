@@ -1,28 +1,23 @@
 package com.jobsphere.factory;
 
-import com.jobsphere.model.Applicant;
-import com.jobsphere.model.Company;
-import com.jobsphere.model.User;
+import com.jobsphere.model.*;
 
 /**
- * DESIGN PATTERN: Factory Pattern
- * Why: Encapsulates user creation logic based on user type
- * Affected Classes: UserFactory
+ * FACTORY PATTERN
+ * Why: Creates different user types (Applicant/Company) without exposing creation logic
+ * Affected: User registration and login processes
+ * Benefit: Centralizes user creation, easy to add new user types
  */
 public class UserFactory {
 
-    public static User createUser(String userType, String email, String password) {
-        if (userType == null || userType.isEmpty()) {
-            throw new IllegalArgumentException("User type cannot be null or empty");
-        }
-
-        switch (userType.toUpperCase()) {
-            case "APPLICANT":
-                return new Applicant(email, password);
-            case "COMPANY":
-                return new Company(email, password);
+    public static User createUser(User.UserType type, String email, String password, String name) {
+        switch (type) {
+            case APPLICANT:
+                return new Applicant(email, password, name);
+            case COMPANY:
+                return new Company(email, password, name);
             default:
-                throw new IllegalArgumentException("Unknown user type: " + userType);
+                throw new IllegalArgumentException("Unknown user type: " + type);
         }
     }
 }

@@ -1,16 +1,18 @@
 package com.jobsphere;
 
-import com.jobsphere.gui.LoginFrame;
-import com.jobsphere.service.DatabaseService;
-import javax.swing.SwingUtilities;
+import com.jobsphere.ui.LoginFrame;
+import com.jobsphere.database.DatabaseManager;
+
+import javax.swing.*;
 
 /**
- * Main entry point for JobSphere application
+ * Main entry point for the JobSphere application
+ * Initializes the database and launches the login screen
  */
 public class Main {
     public static void main(String[] args) {
-        // Initialize database (Singleton pattern ensures single instance)
-        DatabaseService.getInstance();
+        // Initialize database connection using Singleton pattern
+        DatabaseManager.getInstance().initialize();
 
         // Launch GUI on Event Dispatch Thread
         SwingUtilities.invokeLater(() -> {

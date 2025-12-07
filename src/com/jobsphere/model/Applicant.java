@@ -1,45 +1,39 @@
 package com.jobsphere.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
+/**
+ * Applicant user type
+ * Contains resume, skills, and saved jobs
+ */
 public class Applicant extends User {
-    private static final long serialVersionUID = 1L;
-    private String name;
-    private String phone;
-    private String resumePath;
+    private String resume;
     private List<String> skills;
-    private List<String> savedJobIds;
-    private List<String> appliedJobIds;
+    private List<String> savedJobs;
 
-    public Applicant(String email, String password) {
-        super(email, password, "APPLICANT");
+    public Applicant(String email, String password, String name) {
+        super(email, password, name, UserType.APPLICANT);
         this.skills = new ArrayList<>();
-        this.savedJobIds = new ArrayList<>();
-        this.appliedJobIds = new ArrayList<>();
+        this.savedJobs = new ArrayList<>();
     }
 
-    // Getters and setters
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-    public String getPhone() { return phone; }
-    public void setPhone(String phone) { this.phone = phone; }
-    public String getResumePath() { return resumePath; }
-    public void setResumePath(String resumePath) { this.resumePath = resumePath; }
+    public String getResume() { return resume; }
+    public void setResume(String resume) { this.resume = resume; }
+
     public List<String> getSkills() { return skills; }
-    public void setSkills(List<String> skills) { this.skills = skills; }
-    public List<String> getSavedJobIds() { return savedJobIds; }
-    public List<String> getAppliedJobIds() { return appliedJobIds; }
+    public void addSkill(String skill) { this.skills.add(skill); }
 
+    public List<String> getSavedJobs() { return savedJobs; }
     public void saveJob(String jobId) {
-        if (!savedJobIds.contains(jobId)) {
-            savedJobIds.add(jobId);
+        if (!savedJobs.contains(jobId)) {
+            savedJobs.add(jobId);
         }
     }
+    public void unsaveJob(String jobId) { savedJobs.remove(jobId); }
+    public boolean isJobSaved(String jobId) { return savedJobs.contains(jobId); }
 
-    public void applyForJob(String jobId) {
-        if (!appliedJobIds.contains(jobId)) {
-            appliedJobIds.add(jobId);
-        }
+    @Override
+    public String getUserDetails() {
+        return "Applicant: " + name + " (" + email + ")";
     }
 }

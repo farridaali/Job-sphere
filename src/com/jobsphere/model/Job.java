@@ -1,120 +1,111 @@
 package com.jobsphere.model;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
- * DESIGN PATTERN: Builder Pattern
- * Why: Job objects have many optional fields, Builder makes construction cleaner
- * Affected Classes: Job, Job.Builder
+ * BUILDER PATTERN
+ * Why: Job has many optional fields, Builder makes construction cleaner
+ * Affected: Job creation in JobPostingPanel
+ * Benefit: Flexible object construction, readable code, immutable objects
  */
-public class Job implements Serializable {
-    private static final long serialVersionUID = 1L;
-    private String id;
-    private String companyId;
-    private String title;
-    private String description;
-    private String requirements;
-    private String location;
-    private String salary;
-    private String employmentType;
-    private String category;
-    private boolean isActive;
-    private long postedDate;
-    private List<String> applicantIds;
+public class Job {
+    private final String id;
+    private final String companyEmail;
+    private final String title;
+    private final String description;
+    private final String location;
+    private final String jobType;
+    private final String salary;
+    private final List<String> requirements;
+    private final List<String> responsibilities;
+    private JobStatus status;
 
-    private Job(Builder builder) {
-        this.id = generateId();
-        this.companyId = builder.companyId;
-        this.title = builder.title;
-        this.description = builder.description;
-        this.requirements = builder.requirements;
-        this.location = builder.location;
-        this.salary = builder.salary;
-        this.employmentType = builder.employmentType;
-        this.category = builder.category;
-        this.isActive = true;
-        this.postedDate = System.currentTimeMillis();
-        this.applicantIds = new ArrayList<>();
+    public enum JobStatus {
+        ACTIVE, PAUSED, CLOSED
     }
 
-    private String generateId() {
-        return "JOB_" + System.currentTimeMillis() + "_" + (int)(Math.random() * 1000);
+    private Job(JobBuilder builder) {
+        this.id = builder.id;
+        this.companyEmail = builder.companyEmail;
+        this.title = builder.title;
+        this.description = builder.description;
+        this.location = builder.location;
+        this.jobType = builder.jobType;
+        this.salary = builder.salary;
+        this.requirements = builder.requirements;
+        this.responsibilities = builder.responsibilities;
+        this.status = builder.status;
     }
 
     // Getters
     public String getId() { return id; }
-    public String getCompanyId() { return companyId; }
+    public String getCompanyEmail() { return companyEmail; }
     public String getTitle() { return title; }
     public String getDescription() { return description; }
-    public String getRequirements() { return requirements; }
     public String getLocation() { return location; }
+    public String getJobType() { return jobType; }
     public String getSalary() { return salary; }
-    public String getEmploymentType() { return employmentType; }
-    public String getCategory() { return category; }
-    public boolean isActive() { return isActive; }
-    public long getPostedDate() { return postedDate; }
-    public List<String> getApplicantIds() { return applicantIds; }
-
-    // Setters for mutable fields
-    public void setActive(boolean active) { isActive = active; }
-    public void setTitle(String title) { this.title = title; }
-    public void setDescription(String description) { this.description = description; }
-    public void setRequirements(String requirements) { this.requirements = requirements; }
-    public void setSalary(String salary) { this.salary = salary; }
-
-    public void addApplicant(String applicantId) {
-        if (!applicantIds.contains(applicantId)) {
-            applicantIds.add(applicantId);
-        }
-    }
+    public List<String> getRequirements() { return requirements; }
+    public List<String> getResponsibilities() { return responsibilities; }
+    public JobStatus getStatus() { return status; }
+    public void setStatus(JobStatus status) { this.status = status; }
 
     /**
-     * Builder class for constructing Job objects
+     * Builder class for Job
      */
-    public static class Builder {
-        private String companyId;
+    public static class JobBuilder {
+        private String id;
+        private String companyEmail;
         private String title;
         private String description;
-        private String requirements;
         private String location;
+        private String jobType;
         private String salary;
-        private String employmentType;
-        private String category;
+        private List<String> requirements;
+        private List<String> responsibilities;
+        private JobStatus status;
 
-        public Builder(String companyId, String title) {
-            this.companyId = companyId;
+        public JobBuilder(String companyEmail, String title) {
+            this.id = UUID.randomUUID().toString();
+            this.companyEmail = companyEmail;
             this.title = title;
+            this.requirements = new ArrayList<>();
+            this.responsibilities = new ArrayList<>();
+            this.status = JobStatus.ACTIVE;
         }
 
-        public Builder description(String description) {
+        public JobBuilder description(String description) {
             this.description = description;
             return this;
         }
 
-        public Builder requirements(String requirements) {
-            this.requirements = requirements;
-            return this;
-        }
-
-        public Builder location(String location) {
+        public JobBuilder location(String location) {
             this.location = location;
             return this;
         }
 
-        public Builder salary(String salary) {
+        public JobBuilder jobType(String jobType) {
+            this.jobType = jobType;
+            return this;
+        }
+
+        public JobBuilder salary(String salary) {
             this.salary = salary;
             return this;
         }
 
-        public Builder employmentType(String employmentType) {
-            this.employmentType = employmentType;
+        public JobBuilder requirements(List<String> requirements) {
+            this.requirements = requirements;
             return this;
         }
 
-        public Builder category(String category) {
-            this.category = category;
+        public JobBuilder responsibilities(List<String> responsibilities) {
+            this.responsibilities = responsibilities;
+            return this;
+        }
+
+        public JobBuilder status(JobStatus status) {
+            this.status = status;
             return this;
         }
 

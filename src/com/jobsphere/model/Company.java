@@ -1,34 +1,33 @@
 package com.jobsphere.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
+/**
+ * Company user type
+ * Contains company information and posted jobs
+ */
 public class Company extends User {
-    private static final long serialVersionUID = 1L;
-    private String companyName;
+    private String companyDescription;
     private String industry;
-    private String description;
-    private List<String> postedJobIds;
+    private List<String> postedJobs;
 
-    public Company(String email, String password) {
-        super(email, password, "COMPANY");
-        this.postedJobIds = new ArrayList<>();
+    public Company(String email, String password, String name) {
+        super(email, password, name, UserType.COMPANY);
+        this.postedJobs = new ArrayList<>();
     }
 
-    // Getters and setters
-    public String getCompanyName() { return companyName; }
-    public void setCompanyName(String companyName) { this.companyName = companyName; }
+    public String getCompanyDescription() { return companyDescription; }
+    public void setCompanyDescription(String description) { this.companyDescription = description; }
+
     public String getIndustry() { return industry; }
     public void setIndustry(String industry) { this.industry = industry; }
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
-    public List<String> getPostedJobIds() { return postedJobIds; }
 
-    public void addPostedJob(String jobId) {
-        postedJobIds.add(jobId);
-    }
+    public List<String> getPostedJobs() { return postedJobs; }
+    public void addPostedJob(String jobId) { this.postedJobs.add(jobId); }
+    public void removePostedJob(String jobId) { this.postedJobs.remove(jobId); }
 
-    public void removePostedJob(String jobId) {
-        postedJobIds.remove(jobId);
+    @Override
+    public String getUserDetails() {
+        return "Company: " + name + " (" + email + ")";
     }
 }

@@ -1,18 +1,25 @@
-package com.jobsphere.strategy;
+package com.jobsphere.search;
 
 import com.jobsphere.model.Job;
 import java.util.List;
 
+/**
+ * Context class that uses a SearchStrategy
+ * Part of the Strategy Pattern implementation
+ */
 public class JobSearchContext {
-    private JobSearchStrategy strategy;
+    private SearchStrategy strategy;
 
-    public void setStrategy(JobSearchStrategy strategy) {
+    public JobSearchContext() {
+    }
+
+    public void setStrategy(SearchStrategy strategy) {
         this.strategy = strategy;
     }
 
     public List<Job> executeSearch(List<Job> jobs, String criteria) {
         if (strategy == null) {
-            throw new IllegalStateException("Search strategy not set");
+            return jobs;
         }
         return strategy.search(jobs, criteria);
     }

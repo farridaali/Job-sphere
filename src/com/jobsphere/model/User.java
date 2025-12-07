@@ -1,44 +1,34 @@
 package com.jobsphere.model;
 
-import java.io.Serializable;
-
 /**
- * DESIGN PATTERN: Prototype Pattern
- * Why: Allows cloning of user objects for creating similar profiles
- * Affected Classes: User, Applicant, Company
+ * Base User class for both Applicants and Companies
+ * Part of the Factory Pattern hierarchy
  */
-public abstract class User implements Cloneable, Serializable {
-    private static final long serialVersionUID = 1L;
-    protected String id;
+public abstract class User {
     protected String email;
     protected String password;
-    protected String userType;
+    protected String name;
+    protected UserType userType;
 
-    public User(String email, String password, String userType) {
-        this.id = generateId();
+    public enum UserType {
+        APPLICANT, COMPANY
+    }
+
+    public User(String email, String password, String name, UserType userType) {
         this.email = email;
         this.password = password;
+        this.name = name;
         this.userType = userType;
     }
 
-    private String generateId() {
-        return "USER_" + System.currentTimeMillis() + "_" + (int)(Math.random() * 1000);
-    }
-
-    @Override
-    public User clone() {
-        try {
-            return (User) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException("Clone not supported", e);
-        }
-    }
-
-    // Getters and setters
-    public String getId() { return id; }
     public String getEmail() { return email; }
     public String getPassword() { return password; }
-    public String getUserType() { return userType; }
+    public String getName() { return name; }
+    public UserType getUserType() { return userType; }
+
     public void setEmail(String email) { this.email = email; }
     public void setPassword(String password) { this.password = password; }
+    public void setName(String name) { this.name = name; }
+
+    public abstract String getUserDetails();
 }
