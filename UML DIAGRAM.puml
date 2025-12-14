@@ -1,0 +1,293 @@
+@startuml JobSphere Design Patterns
+
+' ========== PATTERN 1: SINGLETON ==========
+package "Singleton Pattern" #LightBlue {
+    class DatabaseManager <<Singleton>> {
+        - {static} instance: DatabaseManager
+        - users: Map<String, User>
+        - jobs: Map<String, Job>
+        - applications: Map<String, List<Application>>
+        - DatabaseManager()
+        + {static} getInstance(): DatabaseManager
+        + saveUser(user: User): void
+        + getUser(email: String): User
+        + saveJob(job: Job): void
+        + getJob(jobId: String): Job
+        + getAllJobs(): List<Job>
+        + saveApplication(app: Application): void
+    }
+
+    class NotificationManager <<Singleton>> {
+        - {static} instance: NotificationManager
+        - observers: List<NotificationObserver>
+        - notifications: List<Notification>
+        - NotificationManager()
+        + {static} getInstance(): NotificationManager
+        + addObserver(observer: NotificationObserver): void
+        + notifyApplicationStatusChange(): void
+        + notifyNewApplication(): void
+    }
+}
+
+' ========== PATTERN 2: FACTORY ==========
+package "Factory Pattern" #LightYellow {
+    class UserFactory <<Factory>> {
+        + {static} createUser(type: UserType, email: String, password: String, name: String): User
+    }
+
+    abstract class User {
+        # email: String
+        # password: String
+        # name: String
+        # userType: UserType
+        + getEmail(): String
+        + getName(): String
+        + getUserType(): UserType
+        + {abstract} getUserDetails(): String
+    }
+
+    class Applicant {
+        - resume: String
+        - skills: List<String>
+        - savedJobs: List<String>
+        + getResume(): String
+        + setResume(resume: String): void
+        + addSkill(skill: String): void
+        + saveJob(jobId: String): void
+        + getUserDetails(): String
+    }
+
+    class Company {
+        - companyDescription: String
+        - industry: String
+        - postedJobs: List<String>
+        + getCompanyDescription(): String
+        + addPostedJob(jobId: String): void
+        + getUserDetails(): String
+    }
+}
+
+' ========== PATTERN 3: BUILDER ==========
+package "Builder Pattern" #LightGreen {
+    class Job {
+        - id: String
+        - companyEmail: String
+        - title: String
+        - description: String
+        - location: String
+        - jobType: String
+        - salary: String
+        - requirements: List<String>
+        - responsibilities: List<String>
+        - status: JobStatus
+        - Job(builder: JobBuilder)
+        + getId(): String
+        + getTitle(): String
+        + getStatus(): JobStatus
+    }
+
+    class JobBuilder <<Builder>> {
+        - id: String
+        - companyEmail: String
+        - title: String
+        - description: String
+        - location: String
+        - jobType: String
+        - salary: String
+        + JobBuilder(companyEmail: String, title: String)
+        + description(desc: String): JobBuilder
+        + location(loc: String): JobBuilder
+        + salary(sal: String): JobBuilder
+        + requirements(reqs: List): JobBuilder
+        + build(): Job
+    }
+}
+
+' ========== PATTERN 4: STATE ==========
+package "State Pattern" #Plum {
+    class Application {
+        - id: String
+        - jobId: String
+        - applicantEmail: String
+        - resume: String
+        - appliedDate: Date
+        - state: ApplicationState
+        + getStatus(): String
+        + setState(state: ApplicationState): void
+        + transitionTo(status: String): void
+        + canTransitionTo(status: String): boolean
+    }
+
+    interface ApplicationState {
+        + getStatusName(): String
+        + nextState(app: Application): void
+        + canTransitionTo(status: String): boolean
+    }
+
+    class PendingState {
+        + getStatusName(): String
+        + nextState(app: Application): void
+        + canTransitionTo(status: String): boolean
+    }
+
+    class ReviewingState {
+        + getStatusName(): String
+        + nextState(app: Application): void
+        + canTransitionTo(status: String): boolean
+    }
+
+    class InterviewState {
+        + getStatusName(): String
+        + nextState(app: Application): void
+        + canTransitionTo(status: String): boolean
+    }
+
+    class AcceptedState {
+        + getStatusName(): String
+        + nextState(app: Application): void
+        + canTransitionTo(status: String): boolean
+    }
+
+    class RejectedState {
+        + getStatusName(): String
+        + nextState(app: Application): void
+        + canTransitionTo(status: String): boolean
+    }
+}
+
+' ========== PATTERN 5: STRATEGY ==========
+package "Strategy Pattern" #Wheat {
+    interface SearchStrategy {
+        + search(jobs: List<Job>, criteria: String): List<Job>
+    }
+
+    class KeywordSearchStrategy {
+        + search(jobs: List<Job>, criteria: String): List<Job>
+    }
+
+    class LocationSearchStrategy {
+        + search(jobs: List<Job>, criteria: String): List<Job>
+    }
+
+    class JobTypeSearchStrategy {
+        + search(jobs: List<Job>, criteria: String): List<Job>
+    }
+
+    class JobSearchContext <<Context>> {
+        - strategy: SearchStrategy
+        + setStrategy(strategy: SearchStrategy): void
+        + executeSearch(jobs: List<Job>, criteria: String): List<Job>
+    }
+}
+
+' ========== PATTERN 6: OBSERVER ==========
+package "Observer Pattern" #LightPink {
+    interface NotificationObserver {
+        + update(notification: Notification): void
+        + getObserverEmail(): String
+    }
+
+    class Notification {
+        - recipientEmail: String
+        - message: String
+        - timestamp: Date
+        - read: boolean
+        + getRecipientEmail(): String
+        + getMessage(): String
+        + markAsRead(): void
+    }
+}
+
+' ========== PATTERN 7: FACADE ==========
+package "Facade Pattern" #LightCyan {
+    class JobSphereServiceFacade <<Facade>> {
+        - {static} instance: JobSphereServiceFacade
+        - dbManager: DatabaseManager
+        - notificationManager: NotificationManager
+        - JobSphereServiceFacade()
+        + {static} getInstance(): JobSphereServiceFacade
+        + registerUser(): User
+        + loginUser(): User
+        + postJob(): void
+        + searchJobs(): List<Job>
+        + submitApplication(): void
+        + updateApplicationStatus(): void
+    }
+}
+
+' ========== PATTERN 8: DECORATOR ==========
+package "Decorator Pattern" #LightGreen {
+    abstract class JobDecorator {
+        # job: Job
+        + JobDecorator(job: Job)
+        + {abstract} getDisplayTitle(): String
+        + {abstract} getDisplayDescription(): String
+        + getJob(): Job
+    }
+
+    class FeaturedJobDecorator {
+        + getDisplayTitle(): String
+        + getDisplayDescription(): String
+    }
+
+    class UrgentJobDecorator {
+        + getDisplayTitle(): String
+        + getDisplayDescription(): String
+    }
+
+    class PremiumJobDecorator {
+        + getDisplayTitle(): String
+        + getDisplayDescription(): String
+    }
+}
+
+' ========== RELATIONSHIPS ==========
+
+' Factory Pattern
+UserFactory .down.> User : creates
+UserFactory .down.> Applicant : creates
+UserFactory .down.> Company : creates
+User <|-- Applicant
+User <|-- Company
+
+' Builder Pattern
+Job *-- JobBuilder : inner class
+JobBuilder .right.> Job : builds
+
+' State Pattern
+Application o-right- ApplicationState : has
+ApplicationState <|.. PendingState
+ApplicationState <|.. ReviewingState
+ApplicationState <|.. InterviewState
+ApplicationState <|.. AcceptedState
+ApplicationState <|.. RejectedState
+
+' Strategy Pattern
+SearchStrategy <|.. KeywordSearchStrategy
+SearchStrategy <|.. LocationSearchStrategy
+SearchStrategy <|.. JobTypeSearchStrategy
+JobSearchContext o-- SearchStrategy : uses
+
+' Observer Pattern
+NotificationManager o-- NotificationObserver : manages
+NotificationManager *-- Notification : creates
+
+' Decorator Pattern
+JobDecorator o-- Job : wraps
+JobDecorator <|-- FeaturedJobDecorator
+JobDecorator <|-- UrgentJobDecorator
+JobDecorator <|-- PremiumJobDecorator
+
+' Facade Pattern
+JobSphereServiceFacade -down-> DatabaseManager : uses
+JobSphereServiceFacade -down-> NotificationManager : uses
+JobSphereServiceFacade -down-> UserFactory : uses
+
+' Data Storage
+DatabaseManager -down-> User : stores
+DatabaseManager -down-> Job : stores
+DatabaseManager -down-> Application : stores
+
+
+
+@enduml
