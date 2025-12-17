@@ -1,7 +1,8 @@
 package com.jobsphere.ui;
 
-import com.jobsphere.model.User;
+import com.jobsphere.model.*;
 import com.jobsphere.service.JobSphereServiceFacade;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -86,9 +87,9 @@ public class LoginFrame extends JFrame {
         if (user != null) {
             this.dispose();
             if (user.getUserType() == User.UserType.APPLICANT) {
-                new ApplicantDashboard((com.jobsphere.model.Applicant) user).setVisible(true);
+                new ApplicantDashboard((Applicant) user).setVisible(true);
             } else {
-                new CompanyDashboard((com.jobsphere.model.Company) user).setVisible(true);
+                new CompanyDashboard((Company) user).setVisible(true);
             }
         } else {
             JOptionPane.showMessageDialog(this, "Invalid credentials", "Error", JOptionPane.ERROR_MESSAGE);

@@ -1,13 +1,6 @@
 package com.jobsphere.notification;
 
 import java.util.*;
-
-/**
- * OBSERVER PATTERN
- * Why: Notify users when application status changes or new jobs match criteria
- * Affected: Application status changes, new job postings
- * Benefit: Loose coupling between components, easy to add new notification types
- */
 public class NotificationManager {
     private static NotificationManager instance;
     private List<NotificationObserver> observers;
@@ -82,7 +75,7 @@ public class NotificationManager {
         }
     }
 
-    public List<Notification> getNotificationsForUser(String email) {
+    /*public List<Notification> getNotificationsForUser(String email) {
         List<Notification> userNotifications = new ArrayList<>();
         for (Notification notification : notifications) {
             if (notification.getRecipientEmail().equals(email)) {
@@ -90,5 +83,5 @@ public class NotificationManager {
             }
         }
         return userNotifications;
-    }
+    }*/
 }

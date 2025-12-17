@@ -7,7 +7,7 @@ import com.jobsphere.notification.NotificationManager;
 import java.util.List;
 
 /**
- * FACADE PATTERN (BONUS #6)
+ * FACADE PATTERN
  * Why: Simplifies complex subsystem interactions (database, notifications, validation)
  * Affected: All UI panels that need business logic
  * Benefit: Single entry point for business operations, hides complexity

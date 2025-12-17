@@ -2,11 +2,6 @@ package com.jobsphere.search;
 
 import com.jobsphere.model.Job;
 import java.util.List;
-
-/**
- * Context class that uses a SearchStrategy
- * Part of the Strategy Pattern implementation
- */
 public class JobSearchContext {
     private SearchStrategy strategy;
 
