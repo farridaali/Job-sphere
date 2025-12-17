@@ -3,11 +3,8 @@ package com.jobsphere.database;
 import java.util.*;
 import com.jobsphere.model.*;
 
-/**
- * SINGLETON PATTERN
- * Why: Ensures only one database connection instance exists throughout the application
- * Affected: All classes that need database access
- * Benefit: Prevents multiple connections, ensures data consistency
+/*
+SINGLETON PATTERN
  */
 public class DatabaseManager {
     private static DatabaseManager instance;
@@ -82,7 +79,7 @@ public class DatabaseManager {
     }
 
     public List<Application> getApplicationsForApplicant(String applicantEmail) {
-        List<com.jobsphere.model.Application> result = new ArrayList<>();
+        List<Application> result = new ArrayList<>();
         for (List<Application> appList : applications.values()) {
             for (Application app : appList) {
                 if (app.getApplicantEmail().equals(applicantEmail)) {

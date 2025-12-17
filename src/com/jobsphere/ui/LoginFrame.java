@@ -6,10 +6,6 @@ import com.jobsphere.service.JobSphereServiceFacade;
 
 import javax.swing.*;
 import java.awt.*;
-
-/**
- * Login screen for both applicants and companies
- */
 public class LoginFrame extends JFrame {
     private JTextField emailField;
     private JPasswordField passwordField;

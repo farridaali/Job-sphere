@@ -6,10 +6,6 @@ import com.jobsphere.database.DatabaseManager;
 
 import javax.swing.*;
 import java.awt.*;
-
-/**
- * Detailed view of a job with apply functionality
- */
 public class JobDetailsDialog extends JDialog {
     private Job job;
     private Applicant applicant;
@@ -104,8 +100,7 @@ public class JobDetailsDialog extends JDialog {
         Application application = new Application(job.getId(), applicant.getEmail(), applicant.getResume());
 
         // Get company email
-        User companyUser = DatabaseManager.getInstance().getUser(job.getCompanyEmail());
-
+        //User companyUser = DatabaseManager.getInstance().getUser(job.getCompanyEmail());
         serviceFacade.submitApplication(application, job.getTitle(), job.getCompanyEmail());
 
         JOptionPane.showMessageDialog(this, "Application submitted successfully!",

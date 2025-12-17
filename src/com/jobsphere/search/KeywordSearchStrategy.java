@@ -1,6 +1,8 @@
 package com.jobsphere.search;
 
 import com.jobsphere.model.Job;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,9 +13,14 @@ public class KeywordSearchStrategy implements SearchStrategy {
     @Override
     public List<Job> search(List<Job> jobs, String criteria) {
         String keyword = criteria.toLowerCase();
-        return jobs.stream()
-                .filter(job -> job.getTitle().toLowerCase().contains(keyword) ||
-                        (job.getDescription() != null && job.getDescription().toLowerCase().contains(keyword)))
-                .collect(Collectors.toList());
+        List<Job> result = new ArrayList<>();
+        for (Job job : jobs) {
+            boolean titleMatches = job.getTitle() != null && job.getTitle().toLowerCase().contains(keyword);
+            boolean descriptionMatches = job.getDescription() != null && job.getDescription().toLowerCase().contains(keyword);
+
+            if (titleMatches || descriptionMatches) {
+                result.add(job);}
+        }
+        return result;
     }
 }

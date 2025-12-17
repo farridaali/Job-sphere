@@ -4,10 +4,8 @@ import com.jobsphere.model.Job;
 import java.util.List;
 public class JobSearchContext {
     private SearchStrategy strategy;
-
     public JobSearchContext() {
     }
-
     public void setStrategy(SearchStrategy strategy) {
         this.strategy = strategy;
     }

@@ -5,10 +5,6 @@ import com.jobsphere.ui.company.*;
 
 import javax.swing.*;
 import java.awt.*;
-
-/**
- * Main dashboard for Companies
- */
 public class CompanyDashboard extends JFrame {
     private Company company;
     private JTabbedPane tabbedPane;

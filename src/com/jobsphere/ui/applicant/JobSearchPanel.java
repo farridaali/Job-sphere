@@ -8,8 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-/**
- * Job search panel - Uses Strategy Pattern for different search types
+/*
+ Strategy Pattern for different search types
  */
 public class JobSearchPanel extends JPanel {
     private Applicant applicant;
