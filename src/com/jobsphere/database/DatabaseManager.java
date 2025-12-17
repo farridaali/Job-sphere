@@ -1,6 +1,7 @@
 package com.jobsphere.database;
 
 import java.util.*;
+import com.jobsphere.model.*;
 
 /**
  * SINGLETON PATTERN
@@ -12,9 +13,9 @@ public class DatabaseManager {
     private static DatabaseManager instance;
 
     // In-memory storage (simulating database)
-    private Map<String, com.jobsphere.model.User> users;
-    private Map<String, com.jobsphere.model.Job> jobs;
-    private Map<String, List<com.jobsphere.model.Application>> applications;
+    private Map<String,User> users;
+    private Map<String,Job> jobs;
+    private Map<String, List<Application>> applications;
 
     // Private constructor prevents instantiation
     private DatabaseManager() {
@@ -36,11 +37,11 @@ public class DatabaseManager {
     }
 
     // User operations
-    public void saveUser(com.jobsphere.model.User user) {
+    public void saveUser(User user) {
         users.put(user.getEmail(), user);
     }
 
-    public com.jobsphere.model.User getUser(String email) {
+    public User getUser(String email) {
         return users.get(email);
     }
 
@@ -49,19 +50,19 @@ public class DatabaseManager {
     }
 
     // Job operations
-    public void saveJob(com.jobsphere.model.Job job) {
+    public void saveJob(Job job) {
         jobs.put(job.getId(), job);
     }
 
-    public com.jobsphere.model.Job getJob(String jobId) {
+    public Job getJob(String jobId) {
         return jobs.get(jobId);
     }
 
-    public List<com.jobsphere.model.Job> getAllJobs() {
+    public List<Job> getAllJobs() {
         return new ArrayList<>(jobs.values());
     }
 
-    public void updateJob(com.jobsphere.model.Job job) {
+    public void updateJob(Job job) {
         jobs.put(job.getId(), job);
     }
 
@@ -70,20 +71,20 @@ public class DatabaseManager {
     }
 
     // Application operations
-    public void saveApplication(com.jobsphere.model.Application application) {
+    public void saveApplication(Application application) {
         String jobId = application.getJobId();
         applications.putIfAbsent(jobId, new ArrayList<>());
         applications.get(jobId).add(application);
     }
 
-    public List<com.jobsphere.model.Application> getApplicationsForJob(String jobId) {
+    public List<Application> getApplicationsForJob(String jobId) {
         return applications.getOrDefault(jobId, new ArrayList<>());
     }
 
-    public List<com.jobsphere.model.Application> getApplicationsForApplicant(String applicantEmail) {
+    public List<Application> getApplicationsForApplicant(String applicantEmail) {
         List<com.jobsphere.model.Application> result = new ArrayList<>();
-        for (List<com.jobsphere.model.Application> appList : applications.values()) {
-            for (com.jobsphere.model.Application app : appList) {
+        for (List<Application> appList : applications.values()) {
+            for (Application app : appList) {
                 if (app.getApplicantEmail().equals(applicantEmail)) {
                     result.add(app);
                 }
@@ -92,8 +93,8 @@ public class DatabaseManager {
         return result;
     }
 
-    public void updateApplication(com.jobsphere.model.Application application) {
-        List<com.jobsphere.model.Application> jobApps = applications.get(application.getJobId());
+    public void updateApplication(Application application) {
+        List<Application> jobApps = applications.get(application.getJobId());
         if (jobApps != null) {
             for (int i = 0; i < jobApps.size(); i++) {
                 if (jobApps.get(i).getId().equals(application.getId())) {

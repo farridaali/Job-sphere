@@ -117,13 +117,16 @@ public class JobPostingPanel extends JPanel {
                     "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
+        Job job =new Job(company.getEmail(), title,descriptionArea.getText().trim());
         // BUILDER PATTERN: Construct Job with optional fields
-        Job.JobBuilder builder = new Job.JobBuilder(company.getEmail(), title)
-                .location(locationField.getText().trim())
-                .jobType((String) jobTypeCombo.getSelectedItem())
-                .salary(salaryField.getText().trim())
-                .description(descriptionArea.getText().trim());
+        JobBuilder builder=new JobBuilder();
+        builder.createNewJob(job);
+        builder.buildlocation(locationField.getText().trim());
+        //builder.builddescription(descriptionArea.getText().trim());
+        builder.buildType((String) jobTypeCombo.getSelectedItem());
+        builder.buildsalary(salaryField.getText().trim());
+
+
 
         // Add requirements
         String[] reqLines = requirementsArea.getText().split("\n");
@@ -133,7 +136,7 @@ public class JobPostingPanel extends JPanel {
                 requirements.add(req.trim());
             }
         }
-        builder.requirements(requirements);
+        builder.buildrequirements(requirements);
 
         // Add responsibilities
         String[] respLines = responsibilitiesArea.getText().split("\n");
@@ -143,9 +146,9 @@ public class JobPostingPanel extends JPanel {
                 responsibilities.add(resp.trim());
             }
         }
-        builder.responsibilities(responsibilities);
+        builder.buildresponsibilities(responsibilities);
 
-        Job job = builder.build();
+        job = builder.build();
         serviceFacade.postJob(job, company);
 
         JOptionPane.showMessageDialog(this, "Job posted successfully!",

@@ -1,9 +1,4 @@
 package com.jobsphere.model;
-
-/**
- * Base User class for both Applicants and Companies
- * Part of the Factory Pattern hierarchy
- */
 public abstract class User {
     protected String email;
     protected String password;

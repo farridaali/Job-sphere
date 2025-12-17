@@ -2,10 +2,6 @@ package com.jobsphere.model;
 
 import java.util.*;
 
-/**
- * Applicant user type
- * Contains resume, skills, and saved jobs
- */
 public class Applicant extends User {
     private String resume;
     private List<String> skills;

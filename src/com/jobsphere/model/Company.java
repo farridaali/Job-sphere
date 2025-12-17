@@ -2,10 +2,6 @@ package com.jobsphere.model;
 
 import java.util.*;
 
-/**
- * Company user type
- * Contains company information and posted jobs
- */
 public class Company extends User {
     private String companyDescription;
     private String industry;

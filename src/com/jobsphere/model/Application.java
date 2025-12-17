@@ -2,10 +2,7 @@ package com.jobsphere.model;
 
 import java.util.*;
 
-/**
- * Application model with State Pattern
- * Represents a job application with different states
- */
+
 public class Application {
     private final String id;
     private final String jobId;
@@ -13,93 +10,6 @@ public class Application {
     private final String resume;
     private final Date appliedDate;
     private ApplicationState state;
-
-    /**
-     * STATE PATTERN
-     * Why: Application status transitions follow specific rules
-     * Affected: Application status management in ApplicationManagementPanel
-     * Benefit: Encapsulates state-specific behavior, prevents invalid transitions
-     */
-    public interface ApplicationState {
-        String getStatusName();
-        void nextState(Application application);
-        boolean canTransitionTo(String newState);
-    }
-
-    public static class PendingState implements ApplicationState {
-        @Override
-        public String getStatusName() { return "Pending"; }
-
-        @Override
-        public void nextState(Application application) {
-            application.setState(new ReviewingState());
-        }
-
-        @Override
-        public boolean canTransitionTo(String newState) {
-            return newState.equals("Reviewing") || newState.equals("Rejected");
-        }
-    }
-
-    public static class ReviewingState implements ApplicationState {
-        @Override
-        public String getStatusName() { return "Reviewing"; }
-
-        @Override
-        public void nextState(Application application) {
-            application.setState(new InterviewState());
-        }
-
-        @Override
-        public boolean canTransitionTo(String newState) {
-            return newState.equals("Interview") || newState.equals("Rejected");
-        }
-    }
-
-    public static class InterviewState implements ApplicationState {
-        @Override
-        public String getStatusName() { return "Interview"; }
-
-        @Override
-        public void nextState(Application application) {
-            application.setState(new AcceptedState());
-        }
-
-        @Override
-        public boolean canTransitionTo(String newState) {
-            return newState.equals("Accepted") || newState.equals("Rejected");
-        }
-    }
-
-    public static class AcceptedState implements ApplicationState {
-        @Override
-        public String getStatusName() { return "Accepted"; }
-
-        @Override
-        public void nextState(Application application) {
-            // Final state
-        }
-
-        @Override
-        public boolean canTransitionTo(String newState) {
-            return false; // Terminal state
-        }
-    }
-
-    public static class RejectedState implements ApplicationState {
-        @Override
-        public String getStatusName() { return "Rejected"; }
-
-        @Override
-        public void nextState(Application application) {
-            // Final state
-        }
-
-        @Override
-        public boolean canTransitionTo(String newState) {
-            return false; // Terminal state
-        }
-    }
 
     public Application(String jobId, String applicantEmail, String resume) {
         this.id = UUID.randomUUID().toString();

@@ -1,13 +1,6 @@
 package com.jobsphere.decorator;
 
 import com.jobsphere.model.Job;
-
-/**
- * DECORATOR PATTERN (BONUS #5)
- * Why: Add additional features to job listings (featured, urgent, premium)
- * Affected: Job display in search results
- * Benefit: Dynamically add responsibilities without modifying Job class
- */
 public abstract class JobDecorator {
     protected Job job;
 
