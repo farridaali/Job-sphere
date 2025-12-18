@@ -106,6 +106,10 @@ public class Job {
         return this.status != JobStatus.CLOSED;
     }
 
+    public boolean canBeDeleted() {
+        return this.status == JobStatus.CLOSED;
+    }
+
     @Override
     public String toString() {
         return "Job{" +

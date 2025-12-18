@@ -2,6 +2,7 @@ package com.jobsphere.ui.company;
 
 import com.jobsphere.model.*;
 import com.jobsphere.model.builder.Job;
+import com.jobsphere.model.state.Application;
 import com.jobsphere.service.JobSphereServiceFacade;
 
 import javax.swing.*;
@@ -25,14 +26,72 @@ public class EditJobDialog extends JDialog {
         this.job = job;
         this.company = company;
         this.serviceFacade = JobSphereServiceFacade.getInstance();
+
+
+        if (!canEditJob()) {
+            JOptionPane.showMessageDialog(parent,
+                    "This job cannot be edited because it has applications that are being reviewed.\n" +
+                            "You can only edit jobs that have no applications or only pending applications.",
+                    "Cannot Edit Job",
+                    JOptionPane.WARNING_MESSAGE);
+
+        }
+
         initComponents();
         loadJobData();
+
+
+        if (!canEditJob()) {
+            disableAllFields();
+        }
+    }
+
+
+    private boolean canEditJob() {
+
+        if (job.getStatus() == Job.JobStatus.CLOSED) {
+            return false;
+        }
+
+
+        java.util.List<Application> applications =
+                serviceFacade.getApplicationsForJob(job.getId());
+
+        for (Application app : applications) {
+            String status = app.getStatus();
+
+            if (!status.equals("Pending")) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
+    private void disableAllFields() {
+        titleField.setEditable(false);
+        locationField.setEditable(false);
+        salaryField.setEditable(false);
+        descriptionArea.setEditable(false);
+        requirementsArea.setEditable(false);
+        responsibilitiesArea.setEditable(false);
+        jobTypeCombo.setEnabled(false);
+
+
+        titleField.setBackground(new java.awt.Color(240, 240, 240));
+        locationField.setBackground(new java.awt.Color(240, 240, 240));
+        salaryField.setBackground(new java.awt.Color(240, 240, 240));
+        descriptionArea.setBackground(new java.awt.Color(240, 240, 240));
+        requirementsArea.setBackground(new java.awt.Color(240, 240, 240));
+        responsibilitiesArea.setBackground(new java.awt.Color(240, 240, 240));
     }
 
     private void initComponents() {
         setSize(600, 600);
         setLocationRelativeTo(getParent());
         setLayout(new BorderLayout(10, 10));
+
 
         JPanel headerPanel = new JPanel();
         headerPanel.setBackground(new Color(231, 76, 60));
@@ -42,11 +101,13 @@ public class EditJobDialog extends JDialog {
         headerPanel.add(titleLabel);
         add(headerPanel, BorderLayout.NORTH);
 
+
         JPanel formPanel = new JPanel(new GridBagLayout());
         formPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 5);
+
 
         gbc.gridx = 0; gbc.gridy = 0;
         formPanel.add(new JLabel("Job Title:*"), gbc);
@@ -54,11 +115,13 @@ public class EditJobDialog extends JDialog {
         titleField = new JTextField(30);
         formPanel.add(titleField, gbc);
 
+
         gbc.gridx = 0; gbc.gridy = 1;
         formPanel.add(new JLabel("Location:"), gbc);
         gbc.gridx = 1;
         locationField = new JTextField(30);
         formPanel.add(locationField, gbc);
+
 
         gbc.gridx = 0; gbc.gridy = 2;
         formPanel.add(new JLabel("Job Type:"), gbc);
@@ -82,12 +145,14 @@ public class EditJobDialog extends JDialog {
         descriptionArea.setWrapStyleWord(true);
         formPanel.add(new JScrollPane(descriptionArea), gbc);
 
+
         gbc.gridx = 0; gbc.gridy = 5;
         formPanel.add(new JLabel("Requirements:"), gbc);
         gbc.gridx = 1;
         requirementsArea = new JTextArea(3, 30);
         requirementsArea.setLineWrap(true);
         formPanel.add(new JScrollPane(requirementsArea), gbc);
+
 
         gbc.gridx = 0; gbc.gridy = 6;
         formPanel.add(new JLabel("Responsibilities:"), gbc);
@@ -98,6 +163,7 @@ public class EditJobDialog extends JDialog {
 
         JScrollPane formScrollPane = new JScrollPane(formPanel);
         add(formScrollPane, BorderLayout.CENTER);
+
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
@@ -134,6 +200,15 @@ public class EditJobDialog extends JDialog {
     }
 
     private void saveJob() {
+
+        if (!canEditJob()) {
+            JOptionPane.showMessageDialog(this,
+                    "Cannot save changes: Job has applications being reviewed",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         String title = titleField.getText().trim();
 
         if (title.isEmpty()) {
@@ -142,11 +217,13 @@ public class EditJobDialog extends JDialog {
             return;
         }
 
+
         job.setTitle(title);
         job.setLocation(locationField.getText().trim());
         job.setJobType((String) jobTypeCombo.getSelectedItem());
         job.setSalary(salaryField.getText().trim());
         job.setDescription(descriptionArea.getText().trim());
+
 
         java.util.List<String> requirements = new ArrayList<>();
         String[] reqLines = requirementsArea.getText().split("\n");
@@ -156,6 +233,7 @@ public class EditJobDialog extends JDialog {
             }
         }
         job.setRequirements(requirements);
+
 
         java.util.List<String> responsibilities = new ArrayList<>();
         String[] respLines = responsibilitiesArea.getText().split("\n");
