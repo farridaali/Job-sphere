@@ -3,6 +3,8 @@ package com.jobsphere.service;
 import com.jobsphere.database.DatabaseManager;
 import com.jobsphere.factory.UserFactory;
 import com.jobsphere.model.*;
+import com.jobsphere.model.builder.Job;
+import com.jobsphere.model.state.Application;
 import com.jobsphere.notification.NotificationManager;
 import java.util.List;
 

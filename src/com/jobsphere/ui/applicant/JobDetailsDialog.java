@@ -1,8 +1,9 @@
 package com.jobsphere.ui.applicant;
 
 import com.jobsphere.model.*;
+import com.jobsphere.model.builder.Job;
+import com.jobsphere.model.state.Application;
 import com.jobsphere.service.JobSphereServiceFacade;
-import com.jobsphere.database.DatabaseManager;
 
 import javax.swing.*;
 import java.awt.*;

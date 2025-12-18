@@ -1,4 +1,4 @@
-package com.jobsphere.model;
+package com.jobsphere.model.state;
 
 public  class ReviewingState extends ApplicationState {
     @Override

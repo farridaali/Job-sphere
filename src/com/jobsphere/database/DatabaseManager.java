@@ -2,26 +2,25 @@ package com.jobsphere.database;
 
 import java.util.*;
 import com.jobsphere.model.*;
+import com.jobsphere.model.builder.Job;
+import com.jobsphere.model.state.Application;
 
-/*
-SINGLETON PATTERN
- */
 public class DatabaseManager {
     private static DatabaseManager instance;
 
-    // In-memory storage (simulating database)
+    // el hashmaps ely bt-replicate el database
     private Map<String,User> users;
-    private Map<String,Job> jobs;
+    private Map<String, Job> jobs;
     private Map<String, List<Application>> applications;
 
-    // Private constructor prevents instantiation
+    // ben3ml el constructor private 3shan nemn3 ay 7ad y3ml instance men el object
     private DatabaseManager() {
         users = new HashMap<>();
         jobs = new HashMap<>();
         applications = new HashMap<>();
     }
 
-    // Thread-safe singleton instance
+    // synchronized hena 3shan yab2a thread safe 3shan mafysh thread te3ml instance mo5tlfa 3n el tanya
     public static synchronized DatabaseManager getInstance() {
         if (instance == null) {
             instance = new DatabaseManager();
@@ -33,7 +32,7 @@ public class DatabaseManager {
         System.out.println("Database initialized successfully");
     }
 
-    // User operations
+    // Functions el user
     public void saveUser(User user) {
         users.put(user.getEmail(), user);
     }
@@ -46,7 +45,9 @@ public class DatabaseManager {
         return users.containsKey(email);
     }
 
-    // Job operations
+    //end functions el user
+
+    //functions el job
     public void saveJob(Job job) {
         jobs.put(job.getId(), job);
     }
@@ -63,11 +64,9 @@ public class DatabaseManager {
         jobs.put(job.getId(), job);
     }
 
-    public void deleteJob(String jobId) {
-        jobs.remove(jobId);
-    }
+    //end functions el job
 
-    // Application operations
+    // functions el job application
     public void saveApplication(Application application) {
         String jobId = application.getJobId();
         applications.putIfAbsent(jobId, new ArrayList<>());
@@ -101,4 +100,6 @@ public class DatabaseManager {
             }
         }
     }
+
+    //end functions el applications
 }

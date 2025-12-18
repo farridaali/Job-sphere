@@ -1,8 +1,7 @@
 package com.jobsphere.search;
 
-import com.jobsphere.model.Job;
+import com.jobsphere.model.builder.Job;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * STRATEGY PATTERN

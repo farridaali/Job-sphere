@@ -3,10 +3,11 @@ package com.jobsphere.factory;
 import com.jobsphere.model.*;
 
 /**
- * FACTORY PATTERN
- * Why: Creates different user types (Applicant/Company) without exposing creation logic
- * Affected: User registration and login processes
- * Benefit: Centralizes user creation, easy to add new user types
+ Dy simple factory bt5aly el client y-create ay no3 user howa 3ayzo
+ men 8er maysh8l dem8o bel implementation bt3o
+
+ badel ma-nfdal ne3ml User user = new Applicant fy kol 7eta han3ml fyha user
+ bn-call bas function us el create user men object el userfactory( Decoupling)
  */
 public class UserFactory {
 

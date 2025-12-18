@@ -1,4 +1,4 @@
-package com.jobsphere.model;
+package com.jobsphere.model.builder;
 
 import java.util.*;
 
@@ -13,22 +13,6 @@ public class Job {
     private  List<String> requirements;
     private  List<String> responsibilities;
     private JobStatus status;
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setCompanyEmail(String companyEmail) {
-        this.companyEmail = companyEmail;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
     public void setLocation(String location) {
         this.location = location;

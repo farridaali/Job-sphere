@@ -1,8 +1,8 @@
-package com.jobsphere.model;
+package com.jobsphere.model.state;
 
-public  class AcceptedState extends ApplicationState {
+public  class RejectedState extends  ApplicationState {
     @Override
-    public String getStatusName() { return "Accepted"; }
+    public String getStatusName() { return "Rejected"; }
 
     @Override
     public void nextState(Application application) {

@@ -1,8 +1,8 @@
 package com.jobsphere.ui.applicant;
+import com.jobsphere.model.builder.Job;
 import com.jobsphere.search.*;
 import com.jobsphere.model.*;
 import com.jobsphere.service.JobSphereServiceFacade;
-import com.jobsphere.search.*;
 
 import javax.swing.*;
 import java.awt.*;

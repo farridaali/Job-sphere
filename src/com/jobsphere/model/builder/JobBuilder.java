@@ -1,8 +1,6 @@
-package com.jobsphere.model;
+package com.jobsphere.model.builder;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public  class JobBuilder {
     public Job job;

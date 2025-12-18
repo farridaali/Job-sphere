@@ -1,6 +1,6 @@
 package com.jobsphere.search;
 
-import com.jobsphere.model.Job;
+import com.jobsphere.model.builder.Job;
 import java.util.List;
 public class JobSearchContext {
     private SearchStrategy strategy;

@@ -1,6 +1,7 @@
 package com.jobsphere.ui.company;
 
 import com.jobsphere.model.*;
+import com.jobsphere.model.builder.Job;
 import com.jobsphere.service.JobSphereServiceFacade;
 
 import javax.swing.*;

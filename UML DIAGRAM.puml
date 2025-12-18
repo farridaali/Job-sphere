@@ -58,8 +58,6 @@ package "Factory Pattern" #LightYellow {
     }
 
     class Company {
-        - companyDescription: String
-        - industry: String
         - postedJobs: List<String>
         + getCompanyDescription(): String
         + addPostedJob(jobId: String): void
@@ -80,25 +78,18 @@ package "Builder Pattern" #LightGreen {
         - requirements: List<String>
         - responsibilities: List<String>
         - status: JobStatus
-        - Job(builder: JobBuilder)
+        + Job(description: String,title: String, companyEmail: String)
         + getId(): String
         + getTitle(): String
         + getStatus(): JobStatus
     }
 
     class JobBuilder <<Builder>> {
-        - id: String
-        - companyEmail: String
-        - title: String
-        - description: String
-        - location: String
-        - jobType: String
-        - salary: String
-        + JobBuilder(companyEmail: String, title: String)
-        + description(desc: String): JobBuilder
-        + location(loc: String): JobBuilder
-        + salary(sal: String): JobBuilder
-        + requirements(reqs: List): JobBuilder
+        - Job: job
+        + createNewJob(job: Job)
+        + buildLocation(loc: String): JobBuilder
+        + buildSalary(sal: String): JobBuilder
+        + buildRequirements(reqs: List): JobBuilder
         + build(): Job
     }
 }
