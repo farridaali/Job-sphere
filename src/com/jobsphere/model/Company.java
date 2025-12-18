@@ -13,9 +13,6 @@ public class Company extends User {
 
     public List<String> getPostedJobs() { return postedJobs; }
     public void addPostedJob(String jobId) { this.postedJobs.add(jobId); }
+    public void removePostedJob(String jobId) { this.postedJobs.remove(jobId); }
 
-    @Override
-    public String getUserDetails() {
-        return "Company: " + name + " (" + email + ")";
-    }
 }

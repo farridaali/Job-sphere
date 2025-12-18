@@ -28,8 +28,5 @@ public class Applicant extends User {
     public void unsaveJob(String jobId) { savedJobs.remove(jobId); }
     public boolean isJobSaved(String jobId) { return savedJobs.contains(jobId); }
 
-    @Override
-    public String getUserDetails() {
-        return "Applicant: " + name + " (" + email + ")";
-    }
+
 }

@@ -5,9 +5,7 @@ import com.jobsphere.model.builder.Job;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Search by keyword in title or description
- */
+
 public class KeywordSearchStrategy implements SearchStrategy {
     @Override
     public List<Job> search(List<Job> jobs, String criteria) {

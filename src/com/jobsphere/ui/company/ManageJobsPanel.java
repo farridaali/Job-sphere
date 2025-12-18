@@ -53,6 +53,18 @@ public class ManageJobsPanel extends JPanel {
         // Button panel
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
+        JButton editButton = new JButton("Edit Job");
+        editButton.setBackground(new Color(52, 152, 219));
+        editButton.setForeground(Color.WHITE);
+        editButton.addActionListener(e -> editJob());
+        buttonPanel.add(editButton);
+
+        JButton deleteButton = new JButton("Delete Job");
+        deleteButton.setBackground(new Color(231, 76, 60));
+        deleteButton.setForeground(Color.WHITE);
+        deleteButton.addActionListener(e -> deleteJob());
+        buttonPanel.add(deleteButton);
+
         JButton pauseButton = new JButton("Pause Job");
         pauseButton.addActionListener(e -> changeJobStatus(Job.JobStatus.PAUSED));
         buttonPanel.add(pauseButton);
@@ -106,5 +118,55 @@ public class ManageJobsPanel extends JPanel {
         JOptionPane.showMessageDialog(this, "Job status updated to: " + newStatus,
                 "Success", JOptionPane.INFORMATION_MESSAGE);
         loadJobs();
+    }
+
+    private void editJob() {
+        int selectedRow = jobsTable.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a job to edit",
+                    "Info", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        String jobId = company.getPostedJobs().get(selectedRow);
+        Job job = serviceFacade.getJob(jobId);
+
+        if (job != null) {
+            EditJobDialog dialog = new EditJobDialog(
+                    (Frame) SwingUtilities.getWindowAncestor(this),
+                    job,
+                    company
+            );
+            dialog.setVisible(true);
+
+            if (dialog.wasSaved()) {
+                loadJobs();  // Refresh the table
+            }
+        }
+    }
+
+    private void deleteJob() {
+        int selectedRow = jobsTable.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a job to delete",
+                    "Info", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        String jobTitle = (String) tableModel.getValueAt(selectedRow, 0);
+
+        int confirm = JOptionPane.showConfirmDialog(this,
+                "Are you sure you want to delete the job: " + jobTitle + "?",
+                "Confirm Deletion",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            String jobId = company.getPostedJobs().get(selectedRow);
+            serviceFacade.deleteJob(jobId, company);
+            JOptionPane.showMessageDialog(this, "Job deleted successfully!",
+                    "Success", JOptionPane.INFORMATION_MESSAGE);
+            loadJobs();
+        }
     }
 }

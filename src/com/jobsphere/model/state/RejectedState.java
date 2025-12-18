@@ -1,16 +1,30 @@
 package com.jobsphere.model.state;
 
-public  class RejectedState extends  ApplicationState {
+public class RejectedState implements ApplicationState {
     @Override
     public String getStatusName() { return "Rejected"; }
 
     @Override
     public void nextState(Application application) {
-        // Final state
     }
 
     @Override
     public boolean canTransitionTo(String newState) {
-        return false; // Terminal state
+        return false;
+    }
+
+    @Override
+    public String getStateDescription() {
+        return "Application was not successful at this time";
+    }
+
+    @Override
+    public boolean canBeEdited() {
+        return false;
+    }
+
+    @Override
+    public boolean isFinalState() {
+        return true;
     }
 }

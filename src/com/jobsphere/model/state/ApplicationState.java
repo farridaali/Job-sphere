@@ -1,9 +1,12 @@
 package com.jobsphere.model.state;
 
 
-public abstract class ApplicationState {
+public interface ApplicationState {
 
-    public abstract String  getStatusName();
-    public abstract void  nextState(Application application);
-    public abstract boolean  canTransitionTo(String newState);
+    String getStatusName();
+    void nextState(Application application);
+    boolean canTransitionTo(String newState);
+    String getStateDescription();
+    boolean canBeEdited();
+    boolean isFinalState();
 }

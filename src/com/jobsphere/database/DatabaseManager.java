@@ -64,6 +64,10 @@ public class DatabaseManager {
         jobs.put(job.getId(), job);
     }
 
+    public void deleteJob(String jobId) {
+        jobs.remove(jobId);
+    }
+
     //end functions el job
 
     // functions el job application

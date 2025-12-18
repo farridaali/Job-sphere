@@ -2,6 +2,11 @@ package com.jobsphere.search;
 
 import com.jobsphere.model.builder.Job;
 import java.util.List;
+
+/**
+ * Hena howa malosh da3wa el algo byt3ml el ezay
+ * howa kol hamo eno yetlob men el strategy el folnya t3ml el search we btgyb end result
+ */
 public class JobSearchContext {
     private SearchStrategy strategy;
     public JobSearchContext() {

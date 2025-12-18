@@ -5,9 +5,7 @@ import com.jobsphere.model.builder.Job;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Search by job type
- */
+
 public class JobTypeSearchStrategy implements SearchStrategy {
     @Override
     public List<Job> search(List<Job> jobs, String criteria) {

@@ -11,6 +11,12 @@ import java.util.*;
  fy 5 mara7al (pending, reviewing, interview,accepted, rejected)
  3shan newsal lel acceptance lazem ne3dy 3ala kol ely ablo
  lakan momken nero7 men ay mar7la lel rejected 3alatoul
+
+ wel mar7alo el wa7eed ely yenf3 fyha n-edit el job posting heya el pending 8er keda
+ mynf3sh ne3ml edit 5alas
+
+ el pattern dy btry7 dem8na men fekrt maslan eno ne3ml 10000 flag we if statement 3shan
+ net2akd el functionality el edit momken te3ml fel mar7ala ely e7na fyha wala la2
  */
 
 public class Application {
@@ -43,6 +49,18 @@ public class Application {
 
     public void nextState() {
         state.nextState(this);
+    }
+
+    public String getStateDescription() {
+        return state.getStateDescription();
+    }
+
+    public boolean canBeEdited() {
+        return state.canBeEdited();
+    }
+
+    public boolean isFinalState() {
+        return state.isFinalState();
     }
 
     public boolean canTransitionTo(String newState) {

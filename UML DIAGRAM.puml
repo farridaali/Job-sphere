@@ -1,4 +1,4 @@
-@startuml JobSphere Design Patterns
+@startuml JobSphere Design Patterns - Updated
 
 ' ========== PATTERN 1: SINGLETON ==========
 package "Singleton Pattern" #LightBlue {
@@ -11,21 +11,16 @@ package "Singleton Pattern" #LightBlue {
         + {static} getInstance(): DatabaseManager
         + saveUser(user: User): void
         + getUser(email: String): User
+        + userExists(email: String): boolean
         + saveJob(job: Job): void
         + getJob(jobId: String): Job
         + getAllJobs(): List<Job>
+        + updateJob(job: Job): void
+        + deleteJob(jobId: String): void
         + saveApplication(app: Application): void
-    }
-
-    class NotificationManager <<Singleton>> {
-        - {static} instance: NotificationManager
-        - observers: List<NotificationObserver>
-        - notifications: List<Notification>
-        - NotificationManager()
-        + {static} getInstance(): NotificationManager
-        + addObserver(observer: NotificationObserver): void
-        + notifyApplicationStatusChange(): void
-        + notifyNewApplication(): void
+        + getApplicationsForJob(jobId: String): List<Application>
+        + getApplicationsForApplicant(email: String): List<Application>
+        + updateApplication(app: Application): void
     }
 }
 
@@ -40,9 +35,12 @@ package "Factory Pattern" #LightYellow {
         # password: String
         # name: String
         # userType: UserType
+        + User(email: String, password: String, name: String, type: UserType)
         + getEmail(): String
+        + getPassword(): String
         + getName(): String
         + getUserType(): UserType
+        + setName(name: String): void
         + {abstract} getUserDetails(): String
     }
 
@@ -50,17 +48,30 @@ package "Factory Pattern" #LightYellow {
         - resume: String
         - skills: List<String>
         - savedJobs: List<String>
+        + Applicant(email: String, password: String, name: String)
         + getResume(): String
         + setResume(resume: String): void
+        + getSkills(): List<String>
         + addSkill(skill: String): void
+        + getSavedJobs(): List<String>
         + saveJob(jobId: String): void
+        + unsaveJob(jobId: String): void
+        + isJobSaved(jobId: String): boolean
         + getUserDetails(): String
     }
 
     class Company {
+        - companyDescription: String
+        - industry: String
         - postedJobs: List<String>
+        + Company(email: String, password: String, name: String)
         + getCompanyDescription(): String
+        + setCompanyDescription(desc: String): void
+        + getIndustry(): String
+        + setIndustry(industry: String): void
+        + getPostedJobs(): List<String>
         + addPostedJob(jobId: String): void
+        + removePostedJob(jobId: String): void
         + getUserDetails(): String
     }
 }
@@ -78,19 +89,48 @@ package "Builder Pattern" #LightGreen {
         - requirements: List<String>
         - responsibilities: List<String>
         - status: JobStatus
-        + Job(description: String,title: String, companyEmail: String)
+        + Job(description: String, title: String, companyEmail: String)
         + getId(): String
+        + getCompanyEmail(): String
         + getTitle(): String
+        + getDescription(): String
+        + getLocation(): String
+        + getJobType(): String
+        + getSalary(): String
+        + getRequirements(): List<String>
+        + getResponsibilities(): List<String>
         + getStatus(): JobStatus
+        + setTitle(title: String): void
+        + setDescription(desc: String): void
+        + setLocation(loc: String): void
+        + setJobType(type: String): void
+        + setSalary(salary: String): void
+        + setRequirements(reqs: List<String>): void
+        + setResponsibilities(resps: List<String>): void
+        + setStatus(status: JobStatus): void
+        + canBeDeleted(): boolean
+        + canBeEdited(): boolean
     }
 
     class JobBuilder <<Builder>> {
-        - Job: job
-        + createNewJob(job: Job)
-        + buildLocation(loc: String): JobBuilder
-        + buildSalary(sal: String): JobBuilder
-        + buildRequirements(reqs: List): JobBuilder
+        + job: Job
+        + createNewJob(job: Job): void
+        + createNewJob(title: String, email: String, desc: String): void
+        + buildlocation(location: String): void
+        + buildType(jobType: String): void
+        + buildsalary(salary: String): void
+        + buildrequirements(requirements: List<String>): void
+        + buildresponsibilities(responsibilities: List<String>): void
+        + buildstatus(status: JobStatus): void
         + build(): Job
+        + reset(): void
+        + hasJob(): boolean
+    }
+
+    enum JobStatus {
+        ACTIVE
+        PAUSED
+        CLOSED
     }
 }
 
@@ -103,46 +143,74 @@ package "State Pattern" #Plum {
         - resume: String
         - appliedDate: Date
         - state: ApplicationState
+        + Application(jobId: String, email: String, resume: String)
+        + getId(): String
+        + getJobId(): String
+        + getApplicantEmail(): String
+        + getResume(): String
+        + getAppliedDate(): Date
         + getStatus(): String
         + setState(state: ApplicationState): void
+        + nextState(): void
         + transitionTo(status: String): void
         + canTransitionTo(status: String): boolean
+        + getStateDescription(): String
+        + canBeEdited(): boolean
+        + isFinalState(): boolean
     }
 
     interface ApplicationState {
         + getStatusName(): String
         + nextState(app: Application): void
         + canTransitionTo(status: String): boolean
+        + getStateDescription(): String
+        + canBeEdited(): boolean
+        + isFinalState(): boolean
     }
 
     class PendingState {
         + getStatusName(): String
         + nextState(app: Application): void
         + canTransitionTo(status: String): boolean
+        + getStateDescription(): String
+        + canBeEdited(): boolean
+        + isFinalState(): boolean
     }
 
     class ReviewingState {
         + getStatusName(): String
         + nextState(app: Application): void
         + canTransitionTo(status: String): boolean
+        + getStateDescription(): String
+        + canBeEdited(): boolean
+        + isFinalState(): boolean
     }
 
     class InterviewState {
         + getStatusName(): String
         + nextState(app: Application): void
         + canTransitionTo(status: String): boolean
+        + getStateDescription(): String
+        + canBeEdited(): boolean
+        + isFinalState(): boolean
     }
 
     class AcceptedState {
         + getStatusName(): String
         + nextState(app: Application): void
         + canTransitionTo(status: String): boolean
+        + getStateDescription(): String
+        + canBeEdited(): boolean
+        + isFinalState(): boolean
     }
 
     class RejectedState {
         + getStatusName(): String
         + nextState(app: Application): void
         + canTransitionTo(status: String): boolean
+        + getStateDescription(): String
+        + canBeEdited(): boolean
+        + isFinalState(): boolean
     }
 }
 
@@ -166,87 +234,52 @@ package "Strategy Pattern" #Wheat {
 
     class JobSearchContext <<Context>> {
         - strategy: SearchStrategy
+        + JobSearchContext()
         + setStrategy(strategy: SearchStrategy): void
         + executeSearch(jobs: List<Job>, criteria: String): List<Job>
     }
 }
 
-' ========== PATTERN 6: OBSERVER ==========
-package "Observer Pattern" #LightPink {
-    interface NotificationObserver {
-        + update(notification: Notification): void
-        + getObserverEmail(): String
-    }
-
-    class Notification {
-        - recipientEmail: String
-        - message: String
-        - timestamp: Date
-        - read: boolean
-        + getRecipientEmail(): String
-        + getMessage(): String
-        + markAsRead(): void
-    }
-}
-
-' ========== PATTERN 7: FACADE ==========
+' ========== PATTERN 6: FACADE ==========
 package "Facade Pattern" #LightCyan {
     class JobSphereServiceFacade <<Facade>> {
         - {static} instance: JobSphereServiceFacade
         - dbManager: DatabaseManager
-        - notificationManager: NotificationManager
         - JobSphereServiceFacade()
         + {static} getInstance(): JobSphereServiceFacade
-        + registerUser(): User
-        + loginUser(): User
-        + postJob(): void
+        + registerUser(type: UserType, email: String, password: String, name: String): User
+        + loginUser(email: String, password: String): User
+        + postJob(job: Job, company: Company): void
         + searchJobs(): List<Job>
-        + submitApplication(): void
-        + updateApplicationStatus(): void
-    }
-}
-
-' ========== PATTERN 8: DECORATOR ==========
-package "Decorator Pattern" #LightGreen {
-    abstract class JobDecorator {
-        # job: Job
-        + JobDecorator(job: Job)
-        + {abstract} getDisplayTitle(): String
-        + {abstract} getDisplayDescription(): String
-        + getJob(): Job
-    }
-
-    class FeaturedJobDecorator {
-        + getDisplayTitle(): String
-        + getDisplayDescription(): String
-    }
-
-    class UrgentJobDecorator {
-        + getDisplayTitle(): String
-        + getDisplayDescription(): String
-    }
-
-    class PremiumJobDecorator {
-        + getDisplayTitle(): String
-        + getDisplayDescription(): String
+        + getJob(jobId: String): Job
+        + updateJob(job: Job): void
+        + updateJobStatus(jobId: String, status: JobStatus): void
+        + deleteJob(jobId: String, company: Company): void
+        + submitApplication(app: Application, jobTitle: String, companyEmail: String): void
+        + getApplicationsForJob(jobId: String): List<Application>
+        + getApplicationsForApplicant(email: String): List<Application>
+        + updateApplicationStatus(app: Application, status: String, jobTitle: String): void
+        + saveJobForApplicant(applicant: Applicant, jobId: String): void
+        + unsaveJobForApplicant(applicant: Applicant, jobId: String): void
     }
 }
 
 ' ========== RELATIONSHIPS ==========
 
 ' Factory Pattern
-UserFactory .down.> User : creates
-UserFactory .down.> Applicant : creates
-UserFactory .down.> Company : creates
+UserFactory ..> User : <<creates>>
+UserFactory ..> Applicant : <<creates>>
+UserFactory ..> Company : <<creates>>
 User <|-- Applicant
 User <|-- Company
 
 ' Builder Pattern
-Job *-- JobBuilder : inner class
-JobBuilder .right.> Job : builds
+Job +-- JobStatus : <<enum>>
+JobBuilder ..> Job : <<builds>>
+JobBuilder --> Job : uses
 
 ' State Pattern
-Application o-right- ApplicationState : has
+Application o-- ApplicationState : has
 ApplicationState <|.. PendingState
 ApplicationState <|.. ReviewingState
 ApplicationState <|.. InterviewState
@@ -259,26 +292,13 @@ SearchStrategy <|.. LocationSearchStrategy
 SearchStrategy <|.. JobTypeSearchStrategy
 JobSearchContext o-- SearchStrategy : uses
 
-' Observer Pattern
-NotificationManager o-- NotificationObserver : manages
-NotificationManager *-- Notification : creates
-
-' Decorator Pattern
-JobDecorator o-- Job : wraps
-JobDecorator <|-- FeaturedJobDecorator
-JobDecorator <|-- UrgentJobDecorator
-JobDecorator <|-- PremiumJobDecorator
-
 ' Facade Pattern
-JobSphereServiceFacade -down-> DatabaseManager : uses
-JobSphereServiceFacade -down-> NotificationManager : uses
-JobSphereServiceFacade -down-> UserFactory : uses
+JobSphereServiceFacade --> DatabaseManager : uses
+JobSphereServiceFacade --> UserFactory : uses
 
 ' Data Storage
-DatabaseManager -down-> User : stores
-DatabaseManager -down-> Job : stores
-DatabaseManager -down-> Application : stores
-
-
+DatabaseManager --> User : stores
+DatabaseManager --> Job : stores
+DatabaseManager --> Application : stores
 
 @enduml
