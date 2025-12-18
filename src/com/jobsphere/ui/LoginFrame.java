@@ -23,7 +23,7 @@ public class LoginFrame extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
 
-        // Header
+
         JPanel headerPanel = new JPanel();
         headerPanel.setBackground(new Color(41, 128, 185));
         JLabel titleLabel = new JLabel("JobSphere");
@@ -32,28 +32,27 @@ public class LoginFrame extends JFrame {
         headerPanel.add(titleLabel);
         add(headerPanel, BorderLayout.NORTH);
 
-        // Main panel
+
         JPanel mainPanel = new JPanel(new GridBagLayout());
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 5);
 
-        // Email
+
         gbc.gridx = 0; gbc.gridy = 0;
         mainPanel.add(new JLabel("Email:"), gbc);
         gbc.gridx = 1;
         emailField = new JTextField(20);
         mainPanel.add(emailField, gbc);
 
-        // Password
+
         gbc.gridx = 0; gbc.gridy = 1;
         mainPanel.add(new JLabel("Password:"), gbc);
         gbc.gridx = 1;
         passwordField = new JPasswordField(20);
         mainPanel.add(passwordField, gbc);
 
-        // Buttons
         gbc.gridx = 0; gbc.gridy = 2; gbc.gridwidth = 2;
         JButton loginButton = new JButton("Login");
         loginButton.setBackground(new Color(41, 128, 185));

@@ -8,9 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-/**
- * Panel showing saved jobs for later viewing
- */
+
 public class SavedJobsPanel extends JPanel {
     private Applicant applicant;
     private JobSphereServiceFacade serviceFacade;
@@ -27,18 +25,18 @@ public class SavedJobsPanel extends JPanel {
         setLayout(new BorderLayout(10, 10));
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Title
+
         JLabel titleLabel = new JLabel("Saved Jobs");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
         add(titleLabel, BorderLayout.NORTH);
 
-        // Jobs panel
+
         jobsPanel = new JPanel();
         jobsPanel.setLayout(new BoxLayout(jobsPanel, BoxLayout.Y_AXIS));
         JScrollPane scrollPane = new JScrollPane(jobsPanel);
         add(scrollPane, BorderLayout.CENTER);
 
-        // Button panel
+
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton refreshButton = new JButton("Refresh");
         refreshButton.addActionListener(e -> loadSavedJobs());

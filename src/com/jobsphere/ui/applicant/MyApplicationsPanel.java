@@ -12,9 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Shows all applications submitted by the applicant
- */
+
 public class MyApplicationsPanel extends JPanel {
     private Applicant applicant;
     private JobSphereServiceFacade serviceFacade;
@@ -32,12 +30,12 @@ public class MyApplicationsPanel extends JPanel {
         setLayout(new BorderLayout(10, 10));
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Title
+
         JLabel titleLabel = new JLabel("My Applications");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
         add(titleLabel, BorderLayout.NORTH);
 
-        // Table
+
         String[] columns = {"Job Title", "Company", "Applied Date", "Status", "Description"};
         tableModel = new DefaultTableModel(columns, 0) {
             @Override
@@ -50,13 +48,13 @@ public class MyApplicationsPanel extends JPanel {
         applicationsTable.setRowHeight(30);
         applicationsTable.getTableHeader().setReorderingAllowed(false);
 
-        // Set column widths
+
         applicationsTable.getColumnModel().getColumn(4).setPreferredWidth(250);
 
         JScrollPane scrollPane = new JScrollPane(applicationsTable);
         add(scrollPane, BorderLayout.CENTER);
 
-        // Button panel
+
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         JButton viewDetailsButton = new JButton("View Details");

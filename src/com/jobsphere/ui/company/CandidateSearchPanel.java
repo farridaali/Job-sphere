@@ -9,9 +9,6 @@ import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
 
-/**
- * Search candidates who applied to company's jobs
- */
 public class CandidateSearchPanel extends JPanel {
     private Company company;
     private JobSphereServiceFacade serviceFacade;
@@ -30,7 +27,6 @@ public class CandidateSearchPanel extends JPanel {
         setLayout(new BorderLayout(10, 10));
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Top panel
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JLabel titleLabel = new JLabel("Candidate Search");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
@@ -51,7 +47,7 @@ public class CandidateSearchPanel extends JPanel {
 
         add(topPanel, BorderLayout.NORTH);
 
-        // Table
+
         String[] columns = {"Applicant Email", "Job Applied For", "Status"};
         tableModel = new DefaultTableModel(columns, 0) {
             @Override
@@ -67,7 +63,6 @@ public class CandidateSearchPanel extends JPanel {
         JScrollPane scrollPane = new JScrollPane(candidatesTable);
         add(scrollPane, BorderLayout.CENTER);
 
-        // Button panel
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton viewResumeButton = new JButton("View Resume");
         viewResumeButton.addActionListener(e -> viewResume());
@@ -129,7 +124,6 @@ public class CandidateSearchPanel extends JPanel {
         String applicantEmail = (String) tableModel.getValueAt(selectedRow, 0);
         String jobTitle = (String) tableModel.getValueAt(selectedRow, 1);
 
-        // Find the application
         Application foundApp = null;
         for (String jobId : company.getPostedJobs()) {
             Job job = serviceFacade.getJob(jobId);

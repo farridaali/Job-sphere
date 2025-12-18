@@ -6,9 +6,7 @@ import com.jobsphere.ui.applicant.*;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Main dashboard for Applicants
- */
+
 public class ApplicantDashboard extends JFrame {
     private Applicant applicant;
     private JTabbedPane tabbedPane;
@@ -25,7 +23,7 @@ public class ApplicantDashboard extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // Header
+
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setBackground(new Color(41, 128, 185));
         headerPanel.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
@@ -41,7 +39,6 @@ public class ApplicantDashboard extends JFrame {
 
         add(headerPanel, BorderLayout.NORTH);
 
-        // Tabbed pane
         tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Search Jobs", new JobSearchPanel(applicant));
         tabbedPane.addTab("My Applications", new MyApplicationsPanel(applicant));

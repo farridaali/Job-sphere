@@ -9,9 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 
-/**
- * Panel for posting new jobs - Uses Builder Pattern for Job creation
- */
+
 public class JobPostingPanel extends JPanel {
     private Company company;
     private JobSphereServiceFacade serviceFacade;
@@ -29,46 +27,42 @@ public class JobPostingPanel extends JPanel {
         setLayout(new BorderLayout(10, 10));
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Title
+
         JLabel titleLabel = new JLabel("Post a New Job");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
         add(titleLabel, BorderLayout.NORTH);
 
-        // Form panel
         JPanel formPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 5);
 
-        // Job Title
+
         gbc.gridx = 0; gbc.gridy = 0;
         formPanel.add(new JLabel("Job Title:*"), gbc);
         gbc.gridx = 1;
         titleField = new JTextField(30);
         formPanel.add(titleField, gbc);
 
-        // Location
+
         gbc.gridx = 0; gbc.gridy = 1;
         formPanel.add(new JLabel("Location:"), gbc);
         gbc.gridx = 1;
         locationField = new JTextField(30);
         formPanel.add(locationField, gbc);
 
-        // Job Type
         gbc.gridx = 0; gbc.gridy = 2;
         formPanel.add(new JLabel("Job Type:"), gbc);
         gbc.gridx = 1;
         jobTypeCombo = new JComboBox<>(new String[]{"Full-time", "Part-time", "Contract", "Internship"});
         formPanel.add(jobTypeCombo, gbc);
 
-        // Salary
         gbc.gridx = 0; gbc.gridy = 3;
         formPanel.add(new JLabel("Salary Range:"), gbc);
         gbc.gridx = 1;
         salaryField = new JTextField(30);
         formPanel.add(salaryField, gbc);
 
-        // Description
         gbc.gridx = 0; gbc.gridy = 4;
         formPanel.add(new JLabel("Description:"), gbc);
         gbc.gridx = 1;
@@ -77,7 +71,6 @@ public class JobPostingPanel extends JPanel {
         descriptionArea.setWrapStyleWord(true);
         formPanel.add(new JScrollPane(descriptionArea), gbc);
 
-        // Requirements
         gbc.gridx = 0; gbc.gridy = 5;
         formPanel.add(new JLabel("Requirements (one per line):"), gbc);
         gbc.gridx = 1;
@@ -85,7 +78,6 @@ public class JobPostingPanel extends JPanel {
         requirementsArea.setLineWrap(true);
         formPanel.add(new JScrollPane(requirementsArea), gbc);
 
-        // Responsibilities
         gbc.gridx = 0; gbc.gridy = 6;
         formPanel.add(new JLabel("Responsibilities (one per line):"), gbc);
         gbc.gridx = 1;
@@ -96,7 +88,6 @@ public class JobPostingPanel extends JPanel {
         JScrollPane formScrollPane = new JScrollPane(formPanel);
         add(formScrollPane, BorderLayout.CENTER);
 
-        // Button panel
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton postButton = new JButton("Post Job");
         postButton.setBackground(new Color(46, 204, 113));
@@ -120,7 +111,6 @@ public class JobPostingPanel extends JPanel {
             return;
         }
         Job job =new Job(company.getEmail(), title,descriptionArea.getText().trim());
-        // BUILDER PATTERN: Construct Job with optional fields
         JobBuilder builder=new JobBuilder();
         builder.createNewJob(job);
         builder.buildlocation(locationField.getText().trim());
@@ -130,7 +120,6 @@ public class JobPostingPanel extends JPanel {
 
 
 
-        // Add requirements
         String[] reqLines = requirementsArea.getText().split("\n");
         java.util.List<String> requirements = new ArrayList<>();
         for (String req : reqLines) {
@@ -140,7 +129,6 @@ public class JobPostingPanel extends JPanel {
         }
         builder.buildrequirements(requirements);
 
-        // Add responsibilities
         String[] respLines = responsibilitiesArea.getText().split("\n");
         java.util.List<String> responsibilities = new ArrayList<>();
         for (String resp : respLines) {

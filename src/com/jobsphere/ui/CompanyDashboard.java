@@ -21,7 +21,7 @@ public class CompanyDashboard extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // Header
+
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setBackground(new Color(231, 76, 60));
         headerPanel.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
@@ -37,7 +37,6 @@ public class CompanyDashboard extends JFrame {
 
         add(headerPanel, BorderLayout.NORTH);
 
-        // Tabbed pane
         tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Post Job", new JobPostingPanel(company));
         tabbedPane.addTab("Manage Jobs", new ManageJobsPanel(company));

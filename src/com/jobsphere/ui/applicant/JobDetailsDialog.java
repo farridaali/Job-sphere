@@ -25,7 +25,6 @@ public class JobDetailsDialog extends JDialog {
         setLocationRelativeTo(getParent());
         setLayout(new BorderLayout(10, 10));
 
-        // Details panel
         JPanel detailsPanel = new JPanel();
         detailsPanel.setLayout(new BoxLayout(detailsPanel, BoxLayout.Y_AXIS));
         detailsPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -57,7 +56,7 @@ public class JobDetailsDialog extends JDialog {
         JScrollPane scrollPane = new JScrollPane(detailsPanel);
         add(scrollPane, BorderLayout.CENTER);
 
-        // Button panel
+
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton applyButton = new JButton("Apply Now");
         applyButton.setBackground(new Color(46, 204, 113));
@@ -83,7 +82,7 @@ public class JobDetailsDialog extends JDialog {
     }
 
     private void applyForJob() {
-        // Check if already applied
+
         for (Application app : serviceFacade.getApplicationsForApplicant(applicant.getEmail())) {
             if (app.getJobId().equals(job.getId())) {
                 JOptionPane.showMessageDialog(this, "You have already applied for this job",
@@ -100,8 +99,7 @@ public class JobDetailsDialog extends JDialog {
 
         Application application = new Application(job.getId(), applicant.getEmail(), applicant.getResume());
 
-        // Get company email
-        //User companyUser = DatabaseManager.getInstance().getUser(job.getCompanyEmail());
+
         serviceFacade.submitApplication(application, job.getTitle(), job.getCompanyEmail());
 
         JOptionPane.showMessageDialog(this, "Application submitted successfully!",

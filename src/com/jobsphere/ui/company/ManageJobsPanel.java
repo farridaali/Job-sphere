@@ -9,9 +9,6 @@ import javax.swing.table.*;
 import java.awt.*;
 import java.util.List;
 
-/**
- * Panel for managing posted jobs (edit status, view applications)
- */
 public class ManageJobsPanel extends JPanel {
     private Company company;
     private JobSphereServiceFacade serviceFacade;
@@ -29,12 +26,12 @@ public class ManageJobsPanel extends JPanel {
         setLayout(new BorderLayout(10, 10));
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Title
+
         JLabel titleLabel = new JLabel("Manage My Job Postings");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
         add(titleLabel, BorderLayout.NORTH);
 
-        // Table
+
         String[] columns = {"Job Title", "Location", "Type", "Status", "Applications"};
         tableModel = new DefaultTableModel(columns, 0) {
             @Override
@@ -50,7 +47,6 @@ public class ManageJobsPanel extends JPanel {
         JScrollPane scrollPane = new JScrollPane(jobsTable);
         add(scrollPane, BorderLayout.CENTER);
 
-        // Button panel
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         JButton editButton = new JButton("Edit Job");
@@ -140,7 +136,7 @@ public class ManageJobsPanel extends JPanel {
             dialog.setVisible(true);
 
             if (dialog.wasSaved()) {
-                loadJobs();  // Refresh the table
+                loadJobs();
             }
         }
     }

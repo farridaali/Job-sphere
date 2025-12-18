@@ -11,9 +11,7 @@ import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-/**
- * Manages applications - Uses State Pattern for status transitions
- */
+
 public class ApplicationManagementPanel extends JPanel {
     private Company company;
     private JobSphereServiceFacade serviceFacade;
@@ -34,7 +32,7 @@ public class ApplicationManagementPanel extends JPanel {
         setLayout(new BorderLayout(10, 10));
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Top panel
+
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JLabel titleLabel = new JLabel("Application Management");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
@@ -48,7 +46,6 @@ public class ApplicationManagementPanel extends JPanel {
 
         add(topPanel, BorderLayout.NORTH);
 
-        // Table
         String[] columns = {"Applicant Email", "Applied Date", "Status", "Description", "Editable"};
         tableModel = new DefaultTableModel(columns, 0) {
             @Override
@@ -61,20 +58,15 @@ public class ApplicationManagementPanel extends JPanel {
         applicationsTable.setRowHeight(30);
         applicationsTable.getTableHeader().setReorderingAllowed(false);
 
-        // Set column widths
+
         applicationsTable.getColumnModel().getColumn(3).setPreferredWidth(200);
 
         JScrollPane scrollPane = new JScrollPane(applicationsTable);
         add(scrollPane, BorderLayout.CENTER);
 
-        // Button panel - STATE PATTERN: Different status transitions
+
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
-        JButton nextStateButton = new JButton("Move to Next State");
-        nextStateButton.setBackground(new Color(52, 152, 219));
-        nextStateButton.setForeground(Color.WHITE);
-        nextStateButton.addActionListener(e -> moveToNextState());
-        buttonPanel.add(nextStateButton);
 
         JButton reviewButton = new JButton("Move to Reviewing");
         reviewButton.addActionListener(e -> changeStatus("Reviewing"));
@@ -141,38 +133,6 @@ public class ApplicationManagementPanel extends JPanel {
         }
     }
 
-    private void moveToNextState() {
-        int selectedRow = applicationsTable.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Please select an application",
-                    "Info", JOptionPane.INFORMATION_MESSAGE);
-            return;
-        }
-
-        String selectedJobTitle = (String) jobCombo.getSelectedItem();
-        String jobId = jobIdToTitle.get(selectedJobTitle);
-        java.util.List<Application> applications = serviceFacade.getApplicationsForJob(jobId);
-
-        if (selectedRow < applications.size()) {
-            Application app = applications.get(selectedRow);
-
-            if (app.isFinalState()) {
-                JOptionPane.showMessageDialog(this,
-                        "Cannot transition - application is in final state: " + app.getStatus(),
-                        "Final State", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            // Move to next state automatically
-            app.nextState();
-            serviceFacade.updateApplicationStatus(app, app.getStatus(), selectedJobTitle);
-
-            JOptionPane.showMessageDialog(this,
-                    "Application moved to: " + app.getStatus(),
-                    "Success", JOptionPane.INFORMATION_MESSAGE);
-            loadApplications();
-        }
-    }
 
     private void changeStatus(String newStatus) {
         int selectedRow = applicationsTable.getSelectedRow();
@@ -189,7 +149,7 @@ public class ApplicationManagementPanel extends JPanel {
         if (selectedRow < applications.size()) {
             Application app = applications.get(selectedRow);
 
-            // STATE PATTERN: Check if transition is valid
+
             if (!app.canTransitionTo(newStatus)) {
                 JOptionPane.showMessageDialog(this,
                         "Cannot transition from " + app.getStatus() + " to " + newStatus,

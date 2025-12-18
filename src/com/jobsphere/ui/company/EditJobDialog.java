@@ -8,9 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 
-/**
- * Dialog for editing existing job postings
- */
+
 public class EditJobDialog extends JDialog {
     private Job job;
     private Company company;
@@ -36,7 +34,6 @@ public class EditJobDialog extends JDialog {
         setLocationRelativeTo(getParent());
         setLayout(new BorderLayout(10, 10));
 
-        // Title
         JPanel headerPanel = new JPanel();
         headerPanel.setBackground(new Color(231, 76, 60));
         JLabel titleLabel = new JLabel("Edit Job Posting");
@@ -45,42 +42,38 @@ public class EditJobDialog extends JDialog {
         headerPanel.add(titleLabel);
         add(headerPanel, BorderLayout.NORTH);
 
-        // Form panel
         JPanel formPanel = new JPanel(new GridBagLayout());
         formPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 5);
 
-        // Job Title
         gbc.gridx = 0; gbc.gridy = 0;
         formPanel.add(new JLabel("Job Title:*"), gbc);
         gbc.gridx = 1;
         titleField = new JTextField(30);
         formPanel.add(titleField, gbc);
 
-        // Location
         gbc.gridx = 0; gbc.gridy = 1;
         formPanel.add(new JLabel("Location:"), gbc);
         gbc.gridx = 1;
         locationField = new JTextField(30);
         formPanel.add(locationField, gbc);
 
-        // Job Type
         gbc.gridx = 0; gbc.gridy = 2;
         formPanel.add(new JLabel("Job Type:"), gbc);
         gbc.gridx = 1;
         jobTypeCombo = new JComboBox<>(new String[]{"Full-time", "Part-time", "Contract", "Internship"});
         formPanel.add(jobTypeCombo, gbc);
 
-        // Salary
+
         gbc.gridx = 0; gbc.gridy = 3;
         formPanel.add(new JLabel("Salary Range:"), gbc);
         gbc.gridx = 1;
         salaryField = new JTextField(30);
         formPanel.add(salaryField, gbc);
 
-        // Description
+
         gbc.gridx = 0; gbc.gridy = 4;
         formPanel.add(new JLabel("Description:"), gbc);
         gbc.gridx = 1;
@@ -89,7 +82,6 @@ public class EditJobDialog extends JDialog {
         descriptionArea.setWrapStyleWord(true);
         formPanel.add(new JScrollPane(descriptionArea), gbc);
 
-        // Requirements
         gbc.gridx = 0; gbc.gridy = 5;
         formPanel.add(new JLabel("Requirements:"), gbc);
         gbc.gridx = 1;
@@ -97,7 +89,6 @@ public class EditJobDialog extends JDialog {
         requirementsArea.setLineWrap(true);
         formPanel.add(new JScrollPane(requirementsArea), gbc);
 
-        // Responsibilities
         gbc.gridx = 0; gbc.gridy = 6;
         formPanel.add(new JLabel("Responsibilities:"), gbc);
         gbc.gridx = 1;
@@ -108,7 +99,6 @@ public class EditJobDialog extends JDialog {
         JScrollPane formScrollPane = new JScrollPane(formPanel);
         add(formScrollPane, BorderLayout.CENTER);
 
-        // Button panel
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         JButton saveButton = new JButton("Save Changes");
@@ -152,14 +142,12 @@ public class EditJobDialog extends JDialog {
             return;
         }
 
-        // Update job fields directly
         job.setTitle(title);
         job.setLocation(locationField.getText().trim());
         job.setJobType((String) jobTypeCombo.getSelectedItem());
         job.setSalary(salaryField.getText().trim());
         job.setDescription(descriptionArea.getText().trim());
 
-        // Update requirements
         java.util.List<String> requirements = new ArrayList<>();
         String[] reqLines = requirementsArea.getText().split("\n");
         for (String req : reqLines) {
@@ -169,7 +157,6 @@ public class EditJobDialog extends JDialog {
         }
         job.setRequirements(requirements);
 
-        // Update responsibilities
         java.util.List<String> responsibilities = new ArrayList<>();
         String[] respLines = responsibilitiesArea.getText().split("\n");
         for (String resp : respLines) {
@@ -179,7 +166,7 @@ public class EditJobDialog extends JDialog {
         }
         job.setResponsibilities(responsibilities);
 
-        // Save to database
+
         serviceFacade.updateJob(job);
 
         saved = true;

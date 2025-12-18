@@ -8,9 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-/*
- Strategy Pattern for different search types
- */
+
 public class JobSearchPanel extends JPanel {
     private Applicant applicant;
     private JobSphereServiceFacade serviceFacade;
@@ -29,7 +27,6 @@ public class JobSearchPanel extends JPanel {
         setLayout(new BorderLayout(10, 10));
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Search panel
         JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
         searchPanel.add(new JLabel("Search by:"));
         searchTypeCombo = new JComboBox<>(new String[]{"Keyword", "Location", "Job Type"});
@@ -53,7 +50,6 @@ public class JobSearchPanel extends JPanel {
 
         add(searchPanel, BorderLayout.NORTH);
 
-        // Results panel
         resultsPanel = new JPanel();
         resultsPanel.setLayout(new BoxLayout(resultsPanel, BoxLayout.Y_AXIS));
         JScrollPane scrollPane = new JScrollPane(resultsPanel);
@@ -67,7 +63,6 @@ public class JobSearchPanel extends JPanel {
             return;
         }
 
-        // STRATEGY PATTERN: Select search strategy based on user choice
         JobSearchContext context = new JobSearchContext();
         String searchType = (String) searchTypeCombo.getSelectedItem();
 
